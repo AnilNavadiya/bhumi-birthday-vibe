@@ -48,7 +48,6 @@
   }
 
   /* ============ HYBRID ANIMATION SYSTEM ============ */
-  /* Auto-animate: triggers on page enter */
   .auto-animate {
     opacity: 0;
     transform: translateY(30px);
@@ -59,7 +58,6 @@
     transform: translateY(0);
   }
 
-  /* Scroll-animate: triggers when scrolled into view */
   .scroll-animate {
     opacity: 0;
     transform: translateY(50px);
@@ -70,7 +68,6 @@
     transform: translateY(0);
   }
 
-  /* Direction variants */
   .from-left { transform: translateX(-40px) translateY(0); }
   .from-left.visible { transform: translateX(0); }
   .from-right { transform: translateX(40px) translateY(0); }
@@ -80,7 +77,6 @@
   .rotate-in { transform: rotate(-6deg) scale(0.85) translateY(20px); }
   .rotate-in.visible { transform: rotate(0deg) scale(1) translateY(0); }
 
-  /* Stagger delays */
   .delay-1 { transition-delay: 0.1s; }
   .delay-2 { transition-delay: 0.2s; }
   .delay-3 { transition-delay: 0.3s; }
@@ -299,19 +295,27 @@
     padding-top: 40px;
   }
 
+  /* LARGER PHOTO FRAME FOR MOBILE */
   .greeting-photo-frame {
-    width: 100%;
-    max-width: 400px;
+    width: 95vw;
+    max-width: 450px;
     aspect-ratio: 4/3;
     border-radius: 20px;
     overflow: hidden;
     position: relative;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    margin-bottom: 15px;
   }
 
   .greeting-photo-frame img {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .greeting-photo-frame:hover img {
+    transform: scale(1.03);
   }
 
   .greeting-overlay {
@@ -488,16 +492,18 @@
   .friend-card-header {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
     margin-bottom: 12px;
   }
 
+  /* LARGER AVATAR FOR MOBILE */
   .friend-avatar-msg {
-    width: 45px; height: 45px;
+    width: 60px; height: 60px;
     border-radius: 50%;
     overflow: hidden;
     border: 3px solid rgba(255,255,255,0.3);
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    flex-shrink: 0;
   }
 
   .friend-avatar-msg img {
@@ -783,9 +789,10 @@
     align-items: center;
   }
 
+  /* LARGER MEMORY PHOTOS FOR MOBILE */
   .memory-photo-frame {
     width: 100%;
-    max-width: 280px;
+    max-width: 320px;
     aspect-ratio: 4/3;
     position: relative;
     border-radius: 12px;
@@ -868,15 +875,16 @@
 
   .memory-strip {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     justify-content: center;
     margin-top: 25px;
     flex-wrap: wrap;
   }
 
+  /* LARGER POLAROIDS FOR MOBILE */
   .mini-polaroid {
     background: white;
-    padding: 6px 6px 22px 6px;
+    padding: 8px 8px 28px 8px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     transform: rotate(var(--rot, 0deg));
     transition: all 0.4s ease;
@@ -895,7 +903,7 @@
   }
 
   .mini-polaroid img {
-    width: 65px; height: 65px;
+    width: 75px; height: 75px;
     object-fit: cover;
     display: block;
   }
@@ -923,10 +931,11 @@
     50% { transform: translateY(-15px) scale(1.05); }
   }
 
+  /* LARGER COLLAGE PHOTOS FOR MOBILE */
   .cake-collage {
     position: relative;
     width: 100%;
-    height: 320px;
+    height: 360px;
     margin-bottom: 25px;
     background: rgba(0,0,0,0.1);
     border-radius: 15px;
@@ -936,16 +945,16 @@
   .collage-photo {
     position: absolute;
     background: white;
-    padding: 8px 8px 28px 8px;
+    padding: 10px 10px 32px 10px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     cursor: pointer;
     transition: all 0.4s ease;
   }
 
-  .collage-photo:nth-child(1) { width: 120px; height: 120px; top: 20px; left: 20px; transform: rotate(-8deg); z-index: 3; }
-  .collage-photo:nth-child(2) { width: 110px; height: 110px; top: 15px; right: 25px; transform: rotate(6deg); z-index: 2; }
-  .collage-photo:nth-child(3) { width: 130px; height: 130px; bottom: 30px; left: 30px; transform: rotate(-4deg); z-index: 2; }
-  .collage-photo:nth-child(4) { width: 105px; height: 105px; bottom: 25px; right: 20px; transform: rotate(7deg); z-index: 3; }
+  .collage-photo:nth-child(1) { width: 140px; height: 140px; top: 25px; left: 25px; transform: rotate(-8deg); z-index: 3; }
+  .collage-photo:nth-child(2) { width: 130px; height: 130px; top: 20px; right: 30px; transform: rotate(6deg); z-index: 2; }
+  .collage-photo:nth-child(3) { width: 150px; height: 150px; bottom: 35px; left: 35px; transform: rotate(-4deg); z-index: 2; }
+  .collage-photo:nth-child(4) { width: 125px; height: 125px; bottom: 30px; right: 25px; transform: rotate(7deg); z-index: 3; }
 
   .collage-photo:hover {
     z-index: 10 !important;
@@ -1140,31 +1149,67 @@
   .play-btn:active { transform: scale(0.95); }
   .play-btn svg { width: 16px; height: 16px; fill: #333; }
 
-  /* RESPONSIVE */
+  /* ============ RESPONSIVE - MOBILE OPTIMIZED ============ */
   @media (max-width: 480px) {
     .page { padding: 15px; }
-    .envelope { width: 260px; height: 173px; }
+    
+    .envelope { width: 280px; height: 187px; }
     .gold-seal { width: 45px; height: 45px; font-size: 18px; }
-    .greeting-photo-frame { max-width: 100%; }
-    .gift-card { width: 110px; height: 110px; font-size: 50px; }
-    .mini-envelope { height: 130px; }
-    .friend-paper { padding: 20px; }
-    .flower-emoji { font-size: 80px; }
-    .memory-photo-frame { max-width: 100%; }
-    .cake-collage { height: 280px; }
-    .collage-photo:nth-child(1) { width: 100px; height: 100px; top: 15px; left: 15px; }
-    .collage-photo:nth-child(2) { width: 90px; height: 90px; top: 10px; right: 20px; }
-    .collage-photo:nth-child(3) { width: 110px; height: 110px; bottom: 25px; left: 25px; }
-    .collage-photo:nth-child(4) { width: 85px; height: 85px; bottom: 20px; right: 15px; }
-    .flip-card { width: 230px; height: 150px; }
+    
+    /* Larger greeting photo on mobile */
+    .greeting-photo-frame {
+      width: 95vw;
+      max-width: 100%;
+      aspect-ratio: 4/3;
+    }
+    
+    .gift-card { width: 120px; height: 120px; font-size: 55px; }
+    
+    .mini-envelope { height: 140px; }
+    .friend-avatar-msg { width: 55px; height: 55px; }
+    
+    .friend-paper { padding: 22px 18px; }
+    
+    .flower-emoji { font-size: 90px; }
+    
+    /* Larger memory photos on mobile */
+    .memory-photo-frame {
+      max-width: 100%;
+      aspect-ratio: 4/3;
+    }
+    
+    .mini-polaroid img {
+      width: 70px; height: 70px;
+    }
+    
+    /* Larger collage on mobile */
+    .cake-collage {
+      height: 340px;
+    }
+    .collage-photo:nth-child(1) { width: 125px; height: 125px; top: 20px; left: 20px; }
+    .collage-photo:nth-child(2) { width: 115px; height: 115px; top: 15px; right: 25px; }
+    .collage-photo:nth-child(3) { width: 135px; height: 135px; bottom: 30px; left: 30px; }
+    .collage-photo:nth-child(4) { width: 110px; height: 110px; bottom: 25px; right: 20px; }
+    
+    .flip-card { width: 240px; height: 160px; }
+    
     .music-player { padding: 15px; }
-    .vinyl-record { width: 55px; height: 55px; }
+    .vinyl-record { width: 60px; height: 60px; }
   }
 
   @media (max-width: 360px) {
-    .gift-item { min-width: 110px; max-width: 130px; }
-    .gift-card { width: 100px; height: 100px; font-size: 45px; }
-    .cake-collage { height: 250px; }
+    .gift-item { min-width: 120px; max-width: 140px; }
+    .gift-card { width: 110px; height: 110px; font-size: 50px; }
+    
+    .cake-collage { height: 300px; }
+    .collage-photo:nth-child(1) { width: 110px; height: 110px; }
+    .collage-photo:nth-child(2) { width: 100px; height: 100px; }
+    .collage-photo:nth-child(3) { width: 120px; height: 120px; }
+    .collage-photo:nth-child(4) { width: 95px; height: 95px; }
+    
+    .mini-polaroid img {
+      width: 65px; height: 65px;
+    }
   }
 </style>
 </head>
@@ -1202,26 +1247,15 @@
 <div class="page" id="page-greeting">
   <div class="page-content">
     <div class="greeting-container">
-      <!-- AUTO ANIMATE (TOP) -->
       <div class="greeting-photo-frame auto-animate scale-up">
-        <!-- <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=450&fit=crop" alt="Friends"> -->
-        <img src="assets/front_cover.jpg" alt="Friends">
-    
+        <img src="assets/front_cover.jpg" alt="Bhumiiiii">
         <div class="greeting-overlay">
-          <div class="greeting-date auto-animate delay-2"><strong>
-         <span id="time"></span>
-        </strong>  </div>
+          <div class="greeting-date auto-animate delay-2"><strong><span id="time"></span></strong></div>
           <h1 class="greeting-title auto-animate delay-3">Bhumiiiii! 🎉</h1>
           <p class="greeting-sub auto-animate delay-4">We hope this little gift will make you happy</p>
         </div>
       </div>
       <button class="continue-btn auto-animate delay-5" onclick="goToPage('page-gifts')">Open Your Gifts 🎁</button>
-      
-      <!-- SCROLL ANIMATE (BOTTOM) -->
-      <!-- <div style="height: 40px;"></div>
-      <p class="scroll-animate from-left" style="color: rgba(255,255,255,0.6); text-align: center; margin-top: 20px; font-size: 14px; max-width: 400px; margin-left: auto; margin-right: auto;">
-        ✨ Scroll down to see more surprises waiting for you... ✨
-      </p> -->
     </div>
   </div>
 </div>
@@ -1230,7 +1264,6 @@
 <div class="page" id="page-gifts">
   <div class="page-content">
     <div class="gifts-container">
-      <!-- AUTO ANIMATE -->
       <div class="gifts-title auto-animate">These are for you</div>
       <div class="gifts-subtitle auto-animate delay-1">Choose a gift to unwrap</div>
       <div class="gifts-grid">
@@ -1248,7 +1281,6 @@
         </div>
       </div>
       
-      <!-- SCROLL ANIMATE -->
       <div style="height: 50px;"></div>
       <div class="scroll-animate from-right" style="background: rgba(255,255,255,0.08); border-radius: 15px; padding: 20px; margin-top: 30px; backdrop-filter: blur(10px);">
         <h3 style="color: white; font-family: 'Dancing Script', cursive; font-size: 24px; margin-bottom: 10px;">💡 Pro Tip</h3>
@@ -1262,7 +1294,6 @@
 <div class="page" id="page-message">
   <div class="page-content">
     <div class="messages-container">
-      <!-- AUTO ANIMATE -->
       <div class="messages-title auto-animate">Letters From Your Friends</div>
       <div class="messages-subtitle auto-animate delay-1">Three hearts, three letters</div>
 
@@ -1275,7 +1306,6 @@
               <div class="friend-name">Shruu</div>
               <div class="friend-label">Constant</div>
             </div>
-            <!-- <div class="friend-number">1</div> -->
           </div>
           <div id="friend1-envelope">
             <div class="mini-envelope-wrapper" onclick="openFriendLetter(1)">
@@ -1285,20 +1315,18 @@
                 <div class="mini-wax-seal">♥</div>
               </div>
             </div>
-            <!-- <div class="mini-tap-hint">tap to read Shruti's letter</div> -->
           </div>
           <div class="friend-letter-content" id="friend1-letter">
             <div class="friend-paper">
               <div class="friend-letter-greeting">Bhumiiiii 🥹🫶🏻,</div>
               <div class="friend-letter-text">
                 <p>Happiesttt birthday to my forever person, my comfort human, my go-to for literally everything, my unpaid therapist, my fav dancer and my bestest friend everrrr. 💌✨</p>
-                <p>You’re genuinely that one person I can never do without. No matter what happens, you’ve always been there — understanding me without even explaining, listening to all my random rants, supporting me in every phase of my life, and loving me exactly the way I am. 🤍</p>
-                <p>We literally have that “couple level understanding” without even trying 😭 Actually we are a “Couple”, one text and we know what’s wrong, one call and my mood instantly uplifts. No fake things, no grudges, no pretending — just the purest friendship everrr.</p>
-                <p>From late night meets, brownie cravings, random “oye niche aa/ free hai?”, “Dessert khana hai” plans, bitching sessions 😭, and endless talks — every memory with you feels like home. And honestly? No one can ever replace you. You’re my safe place, my peace, my person forever. ♾️</p>
-                <p>“Some people make life better just by existing.” And that person for me is YOU. 🫶🏻</p>
-                <p>Please stay exactly the way you are, just overthink a little less okay?🥹 I love you sooo muchhhh and I’m always gonna be right here beside youuu.</p>
+                <p>You're genuinely that one person I can never do without. No matter what happens, you've always been there — understanding me without even explaining, listening to all my random rants, supporting me in every phase of my life, and loving me exactly the way I am. 🤍</p>
+                <p>We literally have that "couple level understanding" without even trying 😭 Actually we are a "Couple", one text and we know what's wrong, one call and my mood instantly uplifts. No fake things, no grudges, no pretending — just the purest friendship everrr.</p>
+                <p>From late night meets, brownie cravings, random "oye niche aa/ free hai?", "Dessert khana hai" plans, bitching sessions 😭, and endless talks — every memory with you feels like home. And honestly? No one can ever replace you. You're my safe place, my peace, my person forever. ♾️</p>
+                <p>"Some people make life better just by existing." And that person for me is YOU. 🫶🏻</p>
+                <p>Please stay exactly the way you are, just overthink a little less okay?🥹 I love you sooo muchhhh and I'm always gonna be right here beside youuu.</p>
                 <p>Happy Birthday to my irreplaceable gem, MY MOST FAVOURITE DANCER👑💃🏻 We have come a long way and will continue till the end. </p>
-              
               </div>
               <div class="friend-letter-sign">
                 <span class="friend-from-label">With Huge hugs,</span>
@@ -1311,12 +1339,11 @@
         <!-- Preety -->
         <div class="friend-message-card auto-animate from-right" id="friend2">
           <div class="friend-card-header">
-            <div class="friend-avatar-msg"><img src="assets/preety.jpg?w=100&h=100&fit=crop&crop=face" alt="Rohan"></div>
+            <div class="friend-avatar-msg"><img src="assets/preety.jpg" alt="Preety"></div>
             <div class="friend-info">
               <div class="friend-name">Pree</div>
               <div class="friend-label">My Safe Place</div>
             </div>
-            <!-- <div class="friend-number">2</div> -->
           </div>
           <div id="friend2-envelope">
             <div class="mini-envelope-wrapper" onclick="openFriendLetter(2)">
@@ -1326,22 +1353,20 @@
                 <div class="mini-wax-seal">★</div>
               </div>
             </div>
-            <!-- <div class="mini-tap-hint">tap to read Preety's letter</div> -->
           </div>
           <div class="friend-letter-content" id="friend2-letter">
             <div class="friend-paper">
               <div class="friend-letter-greeting">Happiest birthday to my homie, my comfort person, my safe place🧿</div>
               <div class="friend-letter-text">
-                <p>Starting from 9th standard i.e. 2017 to 2026 it’s a decade of friendship,love and all in between♾️
+                <p>Starting from 9th standard i.e. 2017 to 2026 it's a decade of friendship,love and all in between♾️
 Kaha 9th standard mai pehli bar mile the or kaha apne aaj agaye
 honestly, jab apne pehli baar mile the na, tab bhi kabhi aisa feel hi nahi hua ki we are meeting for the first time. Ek alag hi comfort tha tere saath from the very beginning, jaise hum pehle se hi ek dusre ko jaante ho.</p>
-                <p>pehle padhai aur school ki baate krte the ki aaegi kya school, kitna hua kya padha or sab or aaj dekh, career, life, shaadi, boyfriends, outfits,breakdowns, overthinking, trips, life adventure(iykyk)— literally har cheez discuss sath ki hai. We really have come a long wayy, and honestly, it couldn’t have been better.</p>
+                <p>pehle padhai aur school ki baate krte the ki aaegi kya school, kitna hua kya padha or sab or aaj dekh, career, life, shaadi, boyfriends, outfits,breakdowns, overthinking, trips, life adventure(iykyk)— literally har cheez discuss sath ki hai. We really have come a long wayy, and honestly, it couldn't have been better.</p>
                 <p>bhale mai thodi noob hu but thankyou for accepting me the way i am and just making sure ki i am okay and checking out for me everytime.
-and bhale kuch bhi hojaye mai hamesha hu tere sath bhale tu 3 baje raat ko call kre mai uthalugi pakka hai ye meraa andd in any phase of life i want you as my best friend, can’t do without youu.</p>
-                <p>‘jaane kyu dil janta tu hai toh i’ll be alright’
-to my og homie just to let you know there is nobody like you nobody ever will be and i love you with all my heart there is no replacement for bhumi in preety’s life ever! </p>
+and bhale kuch bhi hojaye mai hamesha hu tere sath bhale tu 3 baje raat ko call kre mai uthalugi pakka hai ye meraa andd in any phase of life i want you as my best friend, can't do without youu.</p>
+                <p>'jaane kyu dil janta tu hai toh i'll be alright'
+to my og homie just to let you know there is nobody like you nobody ever will be and i love you with all my heart there is no replacement for bhumi in preety's life ever! </p>
                 <p>loveyou my fav girl💌</p>
-                
               </div>
               <div class="friend-letter-sign">
                 <span class="friend-from-label">once again </span>
@@ -1354,12 +1379,11 @@ to my og homie just to let you know there is nobody like you nobody ever will be
         <!-- Sneha -->
         <div class="friend-message-card auto-animate from-left" id="friend3">
           <div class="friend-card-header">
-            <div class="friend-avatar-msg"><img src="assets/sneha.jpg" alt="Ananya"></div>
+            <div class="friend-avatar-msg"><img src="assets/sneha.jpg" alt="Sneha"></div>
             <div class="friend-info">
               <div class="friend-name">Sneha</div>
               <div class="friend-label">Ek jaise Energy</div>
             </div>
-            <!-- <div class="friend-number">3</div> -->
           </div>
           <div id="friend3-envelope">
             <div class="mini-envelope-wrapper" onclick="openFriendLetter(3)">
@@ -1369,21 +1393,19 @@ to my og homie just to let you know there is nobody like you nobody ever will be
                 <div class="mini-wax-seal">✿</div>
               </div>
             </div>
-            <!-- <div class="mini-tap-hint">tap to read Sneha's letter</div> -->
           </div>
           <div class="friend-letter-content" id="friend3-letter">
             <div class="friend-paper">
               <div class="friend-letter-greeting">Happy birthday to the most spcl girll bhumiiiiiii 🫶🏻🫶🏻</div>
               <div class="friend-letter-text">
                 <p>As youu know hamare friendship spcl kyu hai that we dont need daily talks to stayconnected tu jabhi milti hai it feels like home like tuje sab pta haii i dont even need to share.</p>
-                <p>you know every happening and ik no matter what u will always stand beside me and saying “sneha you deserve better “ you will be okay” that care, comfort is soo rare its shows how much you care through every breakdown low phase ik tu hamesa hogi for cheering me up and reminding me my worth thats what truee sisterhood is🧿</p>
+                <p>you know every happening and ik no matter what u will always stand beside me and saying "sneha you deserve better " you will be okay" that care, comfort is soo rare its shows how much you care through every breakdown low phase ik tu hamesa hogi for cheering me up and reminding me my worth thats what truee sisterhood is🧿</p>
                 <p>Our bond is genuinly very spcl to me maybe we meet through people butt today i can proudly say that having you in my life is one of my biggest blessing❤️</p>
                 <p>Jab me tujse mili bhi ni thi shru pree always bolte the ki me bhilkul bhumi jesi hu and Now that I know you,
 I truly understand why. </p>
                 <p>Keeping you in my life forever🧿🧿🤝</p>
               </div>
               <div class="friend-letter-sign">
-                <!-- <span class="friend-from-label">With warmth,</span> -->
                 <span class="friend-sign-line">I love youu soo muchh🫂</span>
               </div>
             </div>
@@ -1391,7 +1413,6 @@ I truly understand why. </p>
         </div>
       </div>
 
-      <!-- SCROLL ANIMATE -->
       <div class="scroll-animate delay-2" style="text-align: center; margin-top: 40px; color: rgba(255,255,255,0.5); font-size: 13px;">
         <p>📜 Each letter was written with love & care</p>
         <p style="margin-top: 5px;">Tap the envelopes to reveal the hidden messages</p>
@@ -1406,7 +1427,6 @@ I truly understand why. </p>
 <div class="page" id="page-flower">
   <div class="page-content">
     <div class="flower-container">
-      <!-- AUTO ANIMATE -->
       <div class="flower-section">
         <span class="flower-emoji auto-animate scale-up">🌻</span>
         <div class="flower-label auto-animate delay-1">Sunflower</div>
@@ -1422,7 +1442,6 @@ I truly understand why. </p>
         <div class="compliment-bubble auto-animate from-right delay-6">🌱 You are <span class="highlight">growing into the best version</span>, and we're proud to witness it.</div>
       </div>
 
-      <!-- SCROLL ANIMATE -->
       <div class="memories-section scroll-animate">
         <div class="memories-title">Our Beautiful Memories</div>
         <div class="memory-carousel">
@@ -1483,7 +1502,6 @@ I truly understand why. </p>
 <div class="page" id="page-cake">
   <div class="page-content">
     <div class="cake-container">
-      <!-- AUTO ANIMATE -->
       <div class="cake-emoji auto-animate scale-up">🎂</div>
       
       <div class="cake-collage auto-animate scale-up delay-1">
@@ -1532,7 +1550,6 @@ I truly understand why. </p>
         </button>
       </div>
 
-      <!-- SCROLL ANIMATE -->
       <div class="scroll-animate delay-6" style="text-align: center; margin-top: 30px; color: rgba(255,255,255,0.5); font-size: 13px;">
         <p>🎵 Turn up the volume for the full experience</p>
       </div>
@@ -1542,264 +1559,285 @@ I truly understand why. </p>
   </div>
 </div>
 
-<audio id="birthdaySong" preload="metadata">
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+<audio id="birthdaySong" preload="auto" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3" type="audio/mpeg">
 </audio>
 
 <script>
   var today = new Date();
-document.getElementById('time').innerHTML=today.toDateString().substring(0, 15);
-// LOADER
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loader').classList.add('hidden');
-    createBalloons();
-  }, 1500);
-});
+  document.getElementById('time').innerHTML = today.toDateString().substring(0, 15);
 
-// BALLOONS
-function createBalloons() {
-  const container = document.getElementById('balloons');
-  const colors = ['#e74c3c', '#f39c12', '#2ecc71', '#3498db', '#9b59b6', '#e91e63'];
-  for (let i = 0; i < 8; i++) {
-    const balloon = document.createElement('div');
-    balloon.className = 'balloon';
-    balloon.style.left = Math.random() * 100 + '%';
-    balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
-    balloon.style.animationDuration = (12 + Math.random() * 15) + 's';
-    balloon.style.animationDelay = Math.random() * 10 + 's';
-    balloon.style.height = (40 + Math.random() * 20) + 'px';
-    container.appendChild(balloon);
-  }
-}
-
-// ============ HYBRID ANIMATION ENGINE ============
-let scrollObserver;
-let emojiInterval;
-
-function triggerAutoAnimations(pageId) {
-  const page = document.getElementById(pageId);
-  if (!page) return;
-  
-  const elements = page.querySelectorAll('.auto-animate');
-  elements.forEach((el, index) => {
-    el.classList.remove('visible');
-    let delay = 200 + (index * 180);
-    const delayMatch = el.className.match(/delay-(\d+)/);
-    if (delayMatch) delay += parseInt(delayMatch[1]) * 100;
-    setTimeout(() => el.classList.add('visible'), delay);
+  // LOADER
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hidden');
+      createBalloons();
+    }, 1500);
   });
-}
 
-function initScrollAnimations() {
-  if (scrollObserver) scrollObserver.disconnect();
-  scrollObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        scrollObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-  document.querySelectorAll('.scroll-animate:not(.visible)').forEach(el => {
-    scrollObserver.observe(el);
-  });
-}
-
-// ============ EXTRAORDINARY EMOJI PARTICLE SYSTEM ============
-function startEmojiSystem(pageId) {
-  clearInterval(emojiInterval);
-  document.querySelectorAll('.emoji-particle').forEach(e => e.remove());
-
-  const emojis = ['🎉', '', '💖', '✨', '🌟', '🎂', '💐', '🎁', '🥳', '', '🧸', '🎵', '🦋', ''];
-  const page = document.getElementById(pageId);
-
-  emojiInterval = setInterval(() => {
-    if (!page.classList.contains('active')) {
-      clearInterval(emojiInterval);
-      return;
+  // BALLOONS
+  function createBalloons() {
+    const container = document.getElementById('balloons');
+    const colors = ['#e74c3c', '#f39c12', '#2ecc71', '#3498db', '#9b59b6', '#e91e63'];
+    for (let i = 0; i < 8; i++) {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      balloon.style.left = Math.random() * 100 + '%';
+      balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+      balloon.style.animationDuration = (12 + Math.random() * 15) + 's';
+      balloon.style.animationDelay = Math.random() * 10 + 's';
+      balloon.style.height = (40 + Math.random() * 20) + 'px';
+      container.appendChild(balloon);
     }
-    if (document.querySelectorAll('.emoji-particle').length > 20) return;
+  }
 
-    const emoji = document.createElement('div');
-    emoji.className = 'emoji-particle';
-    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  // ============ HYBRID ANIMATION ENGINE ============
+  let scrollObserver;
+  let emojiInterval;
 
-    const fromTop = Math.random() > 0.5;
-    const startX = Math.random() * window.innerWidth;
-    const drift = (Math.random() - 0.5) * 120;
-    const rot = (Math.random() - 0.5) * 400;
-    const duration = 4 + Math.random() * 5;
-    const fontSize = 16 + Math.random() * 22;
+  function triggerAutoAnimations(pageId) {
+    const page = document.getElementById(pageId);
+    if (!page) return;
+    
+    const elements = page.querySelectorAll('.auto-animate');
+    elements.forEach((el, index) => {
+      el.classList.remove('visible');
+      let delay = 200 + (index * 180);
+      const delayMatch = el.className.match(/delay-(\d+)/);
+      if (delayMatch) delay += parseInt(delayMatch[1]) * 100;
+      setTimeout(() => el.classList.add('visible'), delay);
+    });
+  }
 
-    emoji.style.left = startX + 'px';
-    emoji.style.fontSize = fontSize + 'px';
-    emoji.style.setProperty('--drift', drift + 'px');
-    emoji.style.setProperty('--rot', rot + 'deg');
-    emoji.style.setProperty('--end-y', fromTop ? '110vh' : '-110px');
-    emoji.style.top = fromTop ? '-60px' : '100vh';
-    emoji.style.animationDuration = duration + 's';
+  function initScrollAnimations() {
+    if (scrollObserver) scrollObserver.disconnect();
+    scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          scrollObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
-    document.body.appendChild(emoji);
-    setTimeout(() => emoji.remove(), duration * 1000);
-  }, 500);
-}
+    document.querySelectorAll('.scroll-animate:not(.visible)').forEach(el => {
+      scrollObserver.observe(el);
+    });
+  }
 
-// ============ PAGE NAVIGATION ============
-function goToPage(pageId) {
-  const activePage = document.querySelector('.page.active');
-  if (activePage) activePage.classList.remove('active');
-  
-  setTimeout(() => {
-    const newPage = document.getElementById(pageId);
-    newPage.classList.add('active');
-    newPage.scrollTop = 0;
+  // ============ EXTRAORDINARY EMOJI PARTICLE SYSTEM ============
+  function startEmojiSystem(pageId) {
+    clearInterval(emojiInterval);
+    document.querySelectorAll('.emoji-particle').forEach(e => e.remove());
+
+    const emojis = ['🎉', '', '💖', '✨', '🌟', '🎂', '💐', '🎁', '🥳', '', '🧸', '🎵', '🦋', ''];
+    const page = document.getElementById(pageId);
+
+    emojiInterval = setInterval(() => {
+      if (!page.classList.contains('active')) {
+        clearInterval(emojiInterval);
+        return;
+      }
+      if (document.querySelectorAll('.emoji-particle').length > 20) return;
+
+      const emoji = document.createElement('div');
+      emoji.className = 'emoji-particle';
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+      const fromTop = Math.random() > 0.5;
+      const startX = Math.random() * window.innerWidth;
+      const drift = (Math.random() - 0.5) * 120;
+      const rot = (Math.random() - 0.5) * 400;
+      const duration = 4 + Math.random() * 5;
+      const fontSize = 16 + Math.random() * 22;
+
+      emoji.style.left = startX + 'px';
+      emoji.style.fontSize = fontSize + 'px';
+      emoji.style.setProperty('--drift', drift + 'px');
+      emoji.style.setProperty('--rot', rot + 'deg');
+      emoji.style.setProperty('--end-y', fromTop ? '110vh' : '-110px');
+      emoji.style.top = fromTop ? '-60px' : '100vh';
+      emoji.style.animationDuration = duration + 's';
+
+      document.body.appendChild(emoji);
+      setTimeout(() => emoji.remove(), duration * 1000);
+    }, 500);
+  }
+
+  // ============ PAGE NAVIGATION ============
+  function goToPage(pageId) {
+    const activePage = document.querySelector('.page.active');
+    if (activePage) activePage.classList.remove('active');
     
     setTimeout(() => {
-      triggerAutoAnimations(pageId);
-      initScrollAnimations();
-      startEmojiSystem(pageId);
-    }, 250);
-    
-    if (pageId === 'page-flower') {
-      setTimeout(() => initCarousel(), 400);
-    }
-  }, 400);
-}
-
-// ENVELOPE
-let envelopeOpened = false;
-function openEnvelope() {
-  if (envelopeOpened) return;
-  envelopeOpened = true;
-  document.getElementById('envelope').classList.add('opened');
-  setTimeout(() => goToPage('page-greeting'), 1000);
-}
-
-// FRIEND LETTERS
-const lettersOpened = { 1: false, 2: false, 3: false };
-
-function openFriendLetter(friendNum) {
-  if (lettersOpened[friendNum]) return;
-  lettersOpened[friendNum] = true;
-
-  const miniEnv = document.getElementById('miniEnv' + friendNum);
-  miniEnv.classList.add('opened');
-
-  setTimeout(() => {
-    document.getElementById('friend' + friendNum + '-envelope').style.display = 'none';
-    const letterContent = document.getElementById('friend' + friendNum + '-letter');
-    letterContent.classList.add('show');
-    
-    letterContent.querySelectorAll('p').forEach((p, i) => {
-      p.style.opacity = '0';
-      p.style.transform = 'translateY(15px)';
-      p.style.transition = `all 0.5s ease ${i * 0.2}s`;
+      const newPage = document.getElementById(pageId);
+      newPage.classList.add('active');
+      newPage.scrollTop = 0;
+      
       setTimeout(() => {
-        p.style.opacity = '1';
-        p.style.transform = 'translateY(0)';
-      }, 100);
+        triggerAutoAnimations(pageId);
+        initScrollAnimations();
+        startEmojiSystem(pageId);
+      }, 250);
+      
+      if (pageId === 'page-flower') {
+        setTimeout(() => initCarousel(), 400);
+      }
+    }, 400);
+  }
+
+  // ENVELOPE
+  let envelopeOpened = false;
+  function openEnvelope() {
+    if (envelopeOpened) return;
+    envelopeOpened = true;
+    document.getElementById('envelope').classList.add('opened');
+    setTimeout(() => goToPage('page-greeting'), 1000);
+  }
+
+  // FRIEND LETTERS
+  const lettersOpened = { 1: false, 2: false, 3: false };
+
+  function openFriendLetter(friendNum) {
+    if (lettersOpened[friendNum]) return;
+    lettersOpened[friendNum] = true;
+
+    const miniEnv = document.getElementById('miniEnv' + friendNum);
+    miniEnv.classList.add('opened');
+
+    setTimeout(() => {
+      document.getElementById('friend' + friendNum + '-envelope').style.display = 'none';
+      const letterContent = document.getElementById('friend' + friendNum + '-letter');
+      letterContent.classList.add('show');
+      
+      letterContent.querySelectorAll('p').forEach((p, i) => {
+        p.style.opacity = '0';
+        p.style.transform = 'translateY(15px)';
+        p.style.transition = `all 0.5s ease ${i * 0.2}s`;
+        setTimeout(() => {
+          p.style.opacity = '1';
+          p.style.transform = 'translateY(0)';
+        }, 100);
+      });
+      
+      const sign = letterContent.querySelector('.friend-letter-sign');
+      if (sign) {
+        sign.style.opacity = '0';
+        sign.style.transform = 'translateX(20px)';
+        sign.style.transition = 'all 0.6s ease 0.8s';
+        setTimeout(() => {
+          sign.style.opacity = '1';
+          sign.style.transform = 'translateX(0)';
+        }, 100);
+      }
+    }, 700);
+  }
+
+  // CAROUSEL
+  let currentSlide = 0;
+  const totalSlides = 4;
+
+  function initCarousel() {
+    const dotsContainer = document.getElementById('carouselDots');
+    if (!dotsContainer) return;
+    dotsContainer.innerHTML = '';
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function moveCarousel(dir) {
+    currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+    updateCarousel();
+  }
+
+  function goToSlide(index) {
+    currentSlide = index;
+    updateCarousel();
+  }
+
+  function updateCarousel() {
+    const track = document.getElementById('memoryTrack');
+    if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentSlide);
     });
-    
-    const sign = letterContent.querySelector('.friend-letter-sign');
-    if (sign) {
-      sign.style.opacity = '0';
-      sign.style.transform = 'translateX(20px)';
-      sign.style.transition = 'all 0.6s ease 0.8s';
-      setTimeout(() => {
-        sign.style.opacity = '1';
-        sign.style.transform = 'translateX(0)';
-      }, 100);
+  }
+
+  setInterval(() => {
+    if (document.getElementById('page-flower').classList.contains('active')) moveCarousel(1);
+  }, 5000);
+
+  // MUSIC
+  const audio = document.getElementById('birthdaySong');
+  let isPlaying = false;
+  let progressInterval;
+
+  function togglePlay() {
+    const vinyl = document.getElementById('vinylRecord');
+    const btn = document.getElementById('playBtn');
+    const progress = document.getElementById('songProgress');
+    const icon = document.getElementById('playIcon');
+
+    if (!isPlaying) {
+      audio.volume = 0.35;
+      audio.play().then(() => {
+        isPlaying = true;
+        vinyl.classList.add('playing');
+        icon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+        progressInterval = setInterval(() => {
+          progress.style.width = ((audio.currentTime / audio.duration) * 100) + '%';
+        }, 500);
+      }).catch(() => {});
+    } else {
+      audio.pause();
+      isPlaying = false;
+      vinyl.classList.remove('playing');
+      icon.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+      clearInterval(progressInterval);
     }
-  }, 700);
-}
-
-// CAROUSEL
-let currentSlide = 0;
-const totalSlides = 4;
-
-function initCarousel() {
-  const dotsContainer = document.getElementById('carouselDots');
-  if (!dotsContainer) return;
-  dotsContainer.innerHTML = '';
-  for (let i = 0; i < totalSlides; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-    dot.onclick = () => goToSlide(i);
-    dotsContainer.appendChild(dot);
   }
-}
 
-function moveCarousel(dir) {
-  currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
-  updateCarousel();
-}
-
-function goToSlide(index) {
-  currentSlide = index;
-  updateCarousel();
-}
-
-function updateCarousel() {
-  const track = document.getElementById('memoryTrack');
-  if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
-  document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-    dot.classList.toggle('active', i === currentSlide);
-  });
-}
-
-setInterval(() => {
-  if (document.getElementById('page-flower').classList.contains('active')) moveCarousel(1);
-}, 5000);
-
-// MUSIC
-const audio = document.getElementById('birthdaySong');
-let isPlaying = false;
-let progressInterval;
-
-function togglePlay() {
-  const vinyl = document.getElementById('vinylRecord');
-  const btn = document.getElementById('playBtn');
-  const progress = document.getElementById('songProgress');
-  const icon = document.getElementById('playIcon');
-
-  if (!isPlaying) {
-    audio.play().then(() => {
-      isPlaying = true;
-      vinyl.classList.add('playing');
-      icon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
-      progressInterval = setInterval(() => {
-        progress.style.width = ((audio.currentTime / audio.duration) * 100) + '%';
-      }, 500);
-    }).catch(() => {});
-  } else {
-    audio.pause();
-    isPlaying = false;
-    vinyl.classList.remove('playing');
-    icon.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
-    clearInterval(progressInterval);
+  // FLIP CARD
+  function flipCard() {
+    document.getElementById('flipCard').classList.toggle('flipped');
   }
-}
 
-// FLIP CARD
-function flipCard() {
-  document.getElementById('flipCard').classList.toggle('flipped');
-}
-
-// PHOTO CLICK EFFECT
-document.querySelectorAll('.collage-photo, .mini-polaroid, .memory-photo-frame').forEach(photo => {
-  photo.addEventListener('click', function() {
-    this.style.transform = 'scale(1.15) rotate(0deg)';
-    setTimeout(() => { this.style.transform = ''; }, 400);
+  // PHOTO CLICK EFFECT
+  document.querySelectorAll('.collage-photo, .mini-polaroid, .memory-photo-frame').forEach(photo => {
+    photo.addEventListener('click', function() {
+      this.style.transform = 'scale(1.15) rotate(0deg)';
+      setTimeout(() => { this.style.transform = ''; }, 400);
+    });
   });
-});
 
-// INITIAL TRIGGERS
-setTimeout(() => {
-  triggerAutoAnimations('page-greeting');
-  initScrollAnimations();
-}, 1600);
+  // AUTO-START MUSIC ON FIRST INTERACTION
+  function startMusic() {
+    if (!isPlaying) {
+      audio.volume = 0.35;
+      audio.play().catch(e => console.log('Click to enable audio'));
+    }
+  }
+  document.addEventListener('click', function initMusic() {
+    startMusic();
+    document.removeEventListener('click', initMusic);
+  }, { once: true });
+
+  // Start music when envelope opens
+  const originalOpenEnvelope = window.openEnvelope;
+  window.openEnvelope = function() {
+    startMusic();
+    if (originalOpenEnvelope) originalOpenEnvelope();
+  }
+
+  // INITIAL TRIGGERS
+  setTimeout(() => {
+    triggerAutoAnimations('page-greeting');
+    initScrollAnimations();
+  }, 1600);
 </script>
 
 </body>
