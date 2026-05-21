@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎉 Happy Birthday Bhumiiiii! 🫶🏻🫶🏻</title>
+<title>🎉 Happy Birthday Bhumiiiii! 🫶🏻🫶</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Quicksand:wght@300;400;600&display=swap');
 
@@ -45,7 +45,35 @@
     max-width: 600px;
     margin: 0 auto;
     padding-bottom: 40px;
+    position: relative;
+    z-index: 10;
   }
+
+  /* ============ BLUR + OVERLAY BACKGROUNDS FOR PAGES ============ */
+  .page::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: inherit;
+    filter: blur(15px) brightness(0.8);
+    z-index: -2;
+    transform: scale(1.05);
+  }
+
+  .page::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8));
+    z-index: -1;
+  }
+
+  #page-envelope { background: url('assets/bg_envelope.jpg') center/cover no-repeat fixed; }
+  #page-greeting { background: url('assets/bg_greeting.jpg') center/cover no-repeat fixed; }
+  #page-gifts { background: url('assets/bg_gifts.jpg') center/cover no-repeat fixed; }
+  #page-message { background: url('assets/bg_messages.jpg') center/cover no-repeat fixed; }
+  #page-flower { background: url('assets/bg_flower.jpg') center/cover no-repeat fixed; }
+  #page-cake { background: url('assets/bg_cake.jpg') center/cover no-repeat fixed; }
 
   /* ============ HYBRID ANIMATION SYSTEM ============ */
   .auto-animate {
@@ -175,7 +203,6 @@
 
   /* ============ PAGE 0: ENVELOPE ============ */
   #page-envelope {
-    background: radial-gradient(ellipse at 30% 50%, #1a1a3e 0%, #0a0a1a 70%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -284,10 +311,6 @@
   }
 
   /* ============ PAGE 1: GREETING ============ */
-  #page-greeting {
-    background: radial-gradient(ellipse at 50% 30%, #1a1a3e 0%, #0a0a1a 70%);
-  }
-
   .greeting-container {
     display: flex;
     flex-direction: column;
@@ -295,7 +318,6 @@
     padding-top: 40px;
   }
 
-  /* LARGER PHOTO FRAME FOR MOBILE */
   .greeting-photo-frame {
     width: 95vw;
     max-width: 450px;
@@ -308,15 +330,12 @@
   }
 
   .greeting-photo-frame img {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
   }
 
-  .greeting-photo-frame:hover img {
-    transform: scale(1.03);
-  }
+  .greeting-photo-frame:hover img { transform: scale(1.03); }
 
   .greeting-overlay {
     position: absolute;
@@ -373,10 +392,6 @@
   .continue-btn:active { transform: scale(0.95); }
 
   /* ============ PAGE 2: GIFTS ============ */
-  #page-gifts {
-    background: radial-gradient(ellipse at 50% 30%, #c0392b 0%, #6b1a1a 100%);
-  }
-
   .gifts-container {
     padding-top: 60px;
     text-align: center;
@@ -458,10 +473,6 @@
   }
 
   /* ============ PAGE 3: MESSAGES ============ */
-  #page-message {
-    background: radial-gradient(ellipse at 50% 30%, #c0392b 0%, #6b1a1a 100%);
-  }
-
   .messages-container {
     padding-top: 50px;
   }
@@ -496,7 +507,6 @@
     margin-bottom: 12px;
   }
 
-  /* LARGER AVATAR FOR MOBILE */
   .friend-avatar-msg {
     width: 60px; height: 60px;
     border-radius: 50%;
@@ -608,25 +618,81 @@
     font-size: 12px;
   }
 
+  /* ============ FIXED: BLURRED AVATAR BACKGROUNDS FOR LETTERS ============ */
   .friend-letter-content {
     display: none;
     animation: fadeIn 0.6s ease;
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    margin: 15px 0;
   }
 
   .friend-letter-content.show { display: block; }
 
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  .friend-paper {
-    border-radius: 12px;
-    padding: 25px;
-    position: relative;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  /* Blurred background photo */
+  .friend-letter-content::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(12px) brightness(0.45);
+    transform: scale(1.15);
+    z-index: -1;
   }
 
-  .friend-message-card:nth-child(1) .friend-paper { background: linear-gradient(180deg, #f7edd5, #f0dbb5); }
-  .friend-message-card:nth-child(2) .friend-paper { background: linear-gradient(180deg, #e8f5f0, #d4ece5); }
-  .friend-message-card:nth-child(3) .friend-paper { background: linear-gradient(180deg, #f0e8f7, #e5d4ec); }
+  /* Colored overlay */
+  .friend-letter-content::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1;
+    border-radius: 16px;
+  }
+
+  /* SHRUTI'S LETTER */
+  .friend-message-card:nth-child(1) .friend-letter-content::before {
+    background-image: url('assets/shruti.jpg');
+    z-index: -1;
+  }
+  .friend-message-card:nth-child(1) .friend-letter-content::after {
+    /* background: linear-gradient(135deg, rgba(180, 140, 30, 0.4), rgba(120, 90, 20, 0.5)); */
+  }
+
+  /* PREETY'S LETTER */
+  .friend-message-card:nth-child(2) .friend-letter-content::before {
+    background-image: url('assets/preety.jpg');
+  }
+  .friend-message-card:nth-child(2) .friend-letter-content::after {
+    /* background: linear-gradient(135deg, rgba(40, 130, 60, 0.4), rgba(30, 90, 45, 0.5)); */
+  }
+
+  /* SNEHA'S LETTER */
+  .friend-message-card:nth-child(3) .friend-letter-content::before {
+    background-image: url('assets/sneha.jpg');
+  }
+  .friend-message-card:nth-child(3) .friend-letter-content::after {
+    /* background: linear-gradient(135deg, rgba(110, 40, 150, 0.4), rgba(80, 30, 110, 0.5)); */
+  }
+
+  /* Glass-morphism paper */
+  .friend-paper {
+    position: relative;
+    z-index: 1;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0.6;
+  }
+
+  .friend-message-card:nth-child(1) .friend-paper { background: rgba(255, 248, 230, 0.75); }
+  .friend-message-card:nth-child(2) .friend-paper { background: rgba(240, 255, 245, 0.75); }
+  .friend-message-card:nth-child(3) .friend-paper { background: rgba(250, 240, 255, 0.75); }
 
   .friend-letter-greeting {
     font-family: 'Great Vibes', cursive;
@@ -647,9 +713,9 @@
 
   .friend-letter-text p { margin-bottom: 12px; text-indent: 20px; }
 
-  .friend-message-card:nth-child(1) .friend-letter-text p { color: #6d5422; }
-  .friend-message-card:nth-child(2) .friend-letter-text p { color: #2d5a3d; }
-  .friend-message-card:nth-child(3) .friend-letter-text p { color: #5a2d7a; }
+  .friend-message-card:nth-child(1) .friend-letter-text p { color: #5a4515; }
+  .friend-message-card:nth-child(2) .friend-letter-text p { color: #1a4a2a; }
+  .friend-message-card:nth-child(3) .friend-letter-text p { color: #4a2060; }
 
   .friend-letter-sign { text-align: right; margin-top: 20px; }
 
@@ -690,10 +756,6 @@
   .back-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
 
   /* ============ PAGE 4: FLOWER ============ */
-  #page-flower {
-    background: radial-gradient(ellipse at 50% 30%, #c0392b 0%, #6b1a1a 100%);
-  }
-
   .flower-container {
     padding-top: 40px;
     text-align: center;
@@ -789,7 +851,6 @@
     align-items: center;
   }
 
-  /* LARGER MEMORY PHOTOS FOR MOBILE */
   .memory-photo-frame {
     width: 100%;
     max-width: 320px;
@@ -881,7 +942,6 @@
     flex-wrap: wrap;
   }
 
-  /* LARGER POLAROIDS FOR MOBILE */
   .mini-polaroid {
     background: white;
     padding: 8px 8px 28px 8px;
@@ -909,10 +969,6 @@
   }
 
   /* ============ PAGE 5: CAKE ============ */
-  #page-cake {
-    background: radial-gradient(ellipse at 50% 30%, #c0392b 0%, #6b1a1a 100%);
-  }
-
   .cake-container {
     padding-top: 40px;
     display: flex;
@@ -931,7 +987,6 @@
     50% { transform: translateY(-15px) scale(1.05); }
   }
 
-  /* LARGER COLLAGE PHOTOS FOR MOBILE */
   .cake-collage {
     position: relative;
     width: 100%;
@@ -1156,7 +1211,6 @@
     .envelope { width: 280px; height: 187px; }
     .gold-seal { width: 45px; height: 45px; font-size: 18px; }
     
-    /* Larger greeting photo on mobile */
     .greeting-photo-frame {
       width: 95vw;
       max-width: 100%;
@@ -1172,7 +1226,6 @@
     
     .flower-emoji { font-size: 90px; }
     
-    /* Larger memory photos on mobile */
     .memory-photo-frame {
       max-width: 100%;
       aspect-ratio: 4/3;
@@ -1182,10 +1235,7 @@
       width: 70px; height: 70px;
     }
     
-    /* Larger collage on mobile */
-    .cake-collage {
-      height: 340px;
-    }
+    .cake-collage { height: 340px; }
     .collage-photo:nth-child(1) { width: 125px; height: 125px; top: 20px; left: 20px; }
     .collage-photo:nth-child(2) { width: 115px; height: 115px; top: 15px; right: 25px; }
     .collage-photo:nth-child(3) { width: 135px; height: 135px; bottom: 30px; left: 30px; }
@@ -1195,6 +1245,22 @@
     
     .music-player { padding: 15px; }
     .vinyl-record { width: 60px; height: 60px; }
+    
+    /* Disable blur on mobile for performance */
+    .page::before {
+      filter: none;
+      transform: none;
+    }
+    
+    .friend-letter-content::before {
+      filter: none;
+      transform: none;
+    }
+    
+    .friend-paper {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: none;
+    }
   }
 
   @media (max-width: 360px) {
@@ -1318,13 +1384,13 @@
           </div>
           <div class="friend-letter-content" id="friend1-letter">
             <div class="friend-paper">
-              <div class="friend-letter-greeting">Bhumiiiii 🥹🫶🏻,</div>
+              <div class="friend-letter-greeting">Bhumiiiii 🥹🫶,</div>
               <div class="friend-letter-text">
                 <p>Happiesttt birthday to my forever person, my comfort human, my go-to for literally everything, my unpaid therapist, my fav dancer and my bestest friend everrrr. 💌✨</p>
                 <p>You're genuinely that one person I can never do without. No matter what happens, you've always been there — understanding me without even explaining, listening to all my random rants, supporting me in every phase of my life, and loving me exactly the way I am. 🤍</p>
                 <p>We literally have that "couple level understanding" without even trying 😭 Actually we are a "Couple", one text and we know what's wrong, one call and my mood instantly uplifts. No fake things, no grudges, no pretending — just the purest friendship everrr.</p>
                 <p>From late night meets, brownie cravings, random "oye niche aa/ free hai?", "Dessert khana hai" plans, bitching sessions 😭, and endless talks — every memory with you feels like home. And honestly? No one can ever replace you. You're my safe place, my peace, my person forever. ♾️</p>
-                <p>"Some people make life better just by existing." And that person for me is YOU. 🫶🏻</p>
+                <p>"Some people make life better just by existing." And that person for me is YOU. 🫶</p>
                 <p>Please stay exactly the way you are, just overthink a little less okay?🥹 I love you sooo muchhhh and I'm always gonna be right here beside youuu.</p>
                 <p>Happy Birthday to my irreplaceable gem, MY MOST FAVOURITE DANCER👑💃🏻 We have come a long way and will continue till the end. </p>
               </div>
@@ -1396,14 +1462,14 @@ to my og homie just to let you know there is nobody like you nobody ever will be
           </div>
           <div class="friend-letter-content" id="friend3-letter">
             <div class="friend-paper">
-              <div class="friend-letter-greeting">Happy birthday to the most spcl girll bhumiiiiiii 🫶🏻🫶🏻</div>
+              <div class="friend-letter-greeting">Happy birthday to the most spcl girll bhumiiiiiii 🫶🫶</div>
               <div class="friend-letter-text">
                 <p>As youu know hamare friendship spcl kyu hai that we dont need daily talks to stayconnected tu jabhi milti hai it feels like home like tuje sab pta haii i dont even need to share.</p>
                 <p>you know every happening and ik no matter what u will always stand beside me and saying "sneha you deserve better " you will be okay" that care, comfort is soo rare its shows how much you care through every breakdown low phase ik tu hamesa hogi for cheering me up and reminding me my worth thats what truee sisterhood is🧿</p>
                 <p>Our bond is genuinly very spcl to me maybe we meet through people butt today i can proudly say that having you in my life is one of my biggest blessing❤️</p>
                 <p>Jab me tujse mili bhi ni thi shru pree always bolte the ki me bhilkul bhumi jesi hu and Now that I know you,
 I truly understand why. </p>
-                <p>Keeping you in my life forever🧿🧿🤝</p>
+                <p>Keeping you in my life forever🧿🧿</p>
               </div>
               <div class="friend-letter-sign">
                 <span class="friend-sign-line">I love youu soo muchh🫂</span>
@@ -1434,12 +1500,12 @@ I truly understand why. </p>
       </div>
 
       <div class="compliments" id="compliments">
-        <div class="compliment-bubble auto-animate from-left delay-1">🌟 You are <span class="highlight">kind in ways that truly matter</span>. The way you think of others makes the world better.</div>
-        <div class="compliment-bubble auto-animate from-right delay-2">💪 You are <span class="highlight">strong, even when things get difficult</span>. Your resilience inspires everyone.</div>
-        <div class="compliment-bubble auto-animate from-left delay-3">🤗 You are <span class="highlight">thoughtful and consider others</span>. Your little gestures mean so much.</div>
-        <div class="compliment-bubble auto-animate from-right delay-4">🚀 You are <span class="highlight">capable of achieving your goals</span>. Never doubt yourself.</div>
-        <div class="compliment-bubble auto-animate from-left delay-5">✨ You are <span class="highlight">unique, and that's your superpower</span>. The world needs you.</div>
-        <div class="compliment-bubble auto-animate from-right delay-6">🌱 You are <span class="highlight">growing into the best version</span>, and we're proud to witness it.</div>
+        <div class="compliment-bubble auto-animate from-left delay-1">🌟 <span class="highlight">Professional overthinker, personal comfort person</span>.</div>
+        <div class="compliment-bubble auto-animate from-right delay-2">💪 <span class="highlight">She’ll roast you first and protect you later</span>.</div>
+        <div class="compliment-bubble auto-animate from-left delay-3">🤗 <span class="highlight">Not everyone gets her, but everyone needs a friend like her</span>.</div>
+        <div class="compliment-bubble auto-animate from-right delay-4">🚀 <span class="highlight">Rude by vibe, caring by soul</span>.</div>
+        <div class="compliment-bubble auto-animate from-left delay-5">✨ <span class="highlight">A dancer with chaotic thoughts and the calmest hugs</span>.</div>
+        <div class="compliment-bubble auto-animate from-right delay-6">🌱 <span class="highlight">She overthinks everything except being there for her people</span>.</div>
       </div>
 
       <div class="memories-section scroll-animate">
@@ -1560,7 +1626,7 @@ I truly understand why. </p>
 </div>
 
 <audio id="birthdaySong" preload="auto" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3" type="audio/mpeg">
+  <source src="assets/bg_music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -1630,7 +1696,7 @@ I truly understand why. </p>
     clearInterval(emojiInterval);
     document.querySelectorAll('.emoji-particle').forEach(e => e.remove());
 
-    const emojis = ['🎉', '', '💖', '✨', '🌟', '🎂', '💐', '🎁', '🥳', '', '🧸', '🎵', '🦋', ''];
+    const emojis = ['🎉', '', '💖', '✨', '🌟', '🎂', '', '🎁', '🥳', '', '🧸', '', '🦋', ''];
     const page = document.getElementById(pageId);
 
     emojiInterval = setInterval(() => {
