@@ -203,7 +203,7 @@
 
   /* ============ PAGE 0: ENVELOPE ============ */
   #page-envelope {
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: center;
   }
@@ -293,7 +293,6 @@
 
   .envelope-text {
     text-align: center;
-    margin-top: 30px;
     z-index: 10;
   }
 
@@ -1316,7 +1315,7 @@
       <div class="greeting-photo-frame auto-animate scale-up">
         <img src="assets/front_cover.jpg" alt="Bhumiiiii">
         <div class="greeting-overlay">
-          <div class="greeting-date auto-animate delay-2"><strong><span id="time"></span></strong></div>
+          <!-- <div class="greeting-date auto-animate delay-2"><strong><span id="time"></span></strong></div> -->
           <h1 class="greeting-title auto-animate delay-3">Happy Birthday Bhumiiiii! 🎉</h1>
           <p class="greeting-sub auto-animate delay-4">We hope this little gift will make you happy</p>
         </div>
@@ -1517,7 +1516,7 @@ I truly understand why. </p>
                 <div class="memory-tape"></div>
                 <img src="assets/group_01.jpg" alt="Memory 1">
               </div>
-              <div class="memory-date">Summer 2024</div>
+              <!-- <div class="memory-date">Summer 2024</div> -->
               <div class="memory-caption">"That time we couldn't stop laughing"</div>
             </div>
             <div class="memory-slide">
@@ -1525,15 +1524,15 @@ I truly understand why. </p>
                 <div class="memory-tape"></div>
                 <img src="assets/group_05.jpg" alt="Memory 2">
               </div>
-              <div class="memory-date">Winter 2024</div>
-              <div class="memory-caption">"Our first trip together"</div>
+              <!-- <div class="memory-date">Winter 2024</div> -->
+              <div class="memory-caption">"Good times, crazy moments, and the best of friends."</div>
             </div>
             <div class="memory-slide">
               <div class="memory-photo-frame">
                 <div class="memory-tape"></div>
                 <img src="assets/group_06.jpg" alt="Memory 3">
               </div>
-              <div class="memory-date">Spring 2025</div>
+              <!-- <div class="memory-date">Spring 2025</div> -->
               <div class="memory-caption">"Friendship is the real treasure"</div>
             </div>
             <div class="memory-slide">
@@ -1541,7 +1540,7 @@ I truly understand why. </p>
                 <div class="memory-tape"></div>
                 <img src="assets/group_07.jpg" alt="Memory 4">
               </div>
-              <div class="memory-date">Autumn 2025</div>
+              <!-- <div class="memory-date">Autumn 2025</div> -->
               <div class="memory-caption">"Through every season"</div>
             </div>
           </div>
@@ -1634,8 +1633,8 @@ I truly understand why. </p>
 </audio>
 
 <script>
-  var today = new Date();
-  document.getElementById('time').innerHTML = today.toDateString().substring(0, 15);
+  // var today = new Date();
+  // document.getElementById('time').innerHTML = today.toDateString().substring(0, 15);
 
   // LOADER
   window.addEventListener('load', () => {
