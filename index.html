@@ -1317,7 +1317,7 @@
         <img src="assets/front_cover.jpg" alt="Bhumiiiii">
         <div class="greeting-overlay">
           <div class="greeting-date auto-animate delay-2"><strong><span id="time"></span></strong></div>
-          <h1 class="greeting-title auto-animate delay-3">Bhumiiiii! 🎉</h1>
+          <h1 class="greeting-title auto-animate delay-3">Happy Birthday Bhumiiiii! 🎉</h1>
           <p class="greeting-sub auto-animate delay-4">We hope this little gift will make you happy</p>
         </div>
       </div>
@@ -1602,22 +1602,22 @@ I truly understand why. </p>
       </div>
 
       <div class="cake-title auto-animate delay-3">Happy Birthday Bhumiiiii!</div>
-      <div class="song-text auto-animate delay-4">"This song reminds me of you" </div>
+      <div class="song-text auto-animate delay-4">"You’re the most beautiful star in the universe! 🌟" </div>
       
       <div class="music-player auto-animate from-left delay-5">
         <div class="vinyl-record" id="vinylRecord"></div>
         <div class="song-info">
-          <div class="song-title">Risk It All</div>
-          <div class="song-artist">Bruno Mars</div>
+          <div class="song-title">Birthday Wish</div>
+          <div class="song-artist">Special Message</div>
           <div class="song-bar"><div class="song-progress" id="songProgress"></div></div>
         </div>
-        <button class="play-btn" id="playBtn" onclick="togglePlay()">
+        <button class="play-btn" id="playBtn" onclick="toggleWishPlay()">
           <svg viewBox="0 0 24 24" id="playIcon"><polygon points="5,3 19,12 5,21"/></svg>
         </button>
       </div>
 
       <div class="scroll-animate delay-6" style="text-align: center; margin-top: 30px; color: rgba(255,255,255,0.5); font-size: 13px;">
-        <p>🎵 Turn up the volume for the full experience</p>
+        <!-- <p>🎵 Turn up the volume for the full experience</p> -->
       </div>
 
       <button class="back-btn scroll-animate delay-7" onclick="goToPage('page-gifts')">← Back to Gifts</button>
@@ -1627,6 +1627,10 @@ I truly understand why. </p>
 
 <audio id="birthdaySong" preload="auto" loop>
   <source src="assets/bg_music.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="birthdayWish" preload="metadata" loop>
+  <source src="assets/birthday_wish.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -1842,30 +1846,132 @@ I truly understand why. </p>
   let isPlaying = false;
   let progressInterval;
 
-  function togglePlay() {
-    const vinyl = document.getElementById('vinylRecord');
-    const btn = document.getElementById('playBtn');
-    const progress = document.getElementById('songProgress');
-    const icon = document.getElementById('playIcon');
+  // Audio management variables
+  let backgroundPlaying = false;
+  let wishPlaying = false;
+  let backgroundAudio = document.getElementById('birthdaySong');
+  let wishAudio = document.getElementById('birthdayWish');
+  
+  // Initialize background music on first click
+  document.addEventListener('click', function initMusic() {
+    if (!backgroundPlaying) {
+      backgroundAudio.volume = 0.35;
+      backgroundAudio.play()
+        .then(() => {
+          backgroundPlaying = true;
+          console.log('Background music started');
+        })
+        .catch(e => {
+          console.error('Background audio error:', e);
+        });
+    }
+    document.removeEventListener('click', initMusic);
+  }, { once: true });
 
-    if (!isPlaying) {
-      audio.volume = 0.35;
-      audio.play().then(() => {
-        isPlaying = true;
-        vinyl.classList.add('playing');
-        icon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+  // Toggle wish audio with background music management
+  function toggleWishPlay() {
+    const playBtn = document.getElementById('playBtn');
+    const vinylRecord = document.getElementById('vinylRecord');
+    const playIcon = document.getElementById('playIcon');
+    const progress = document.getElementById('songProgress');
+    
+    if (wishAudio.paused) {
+      // Pause background music if playing
+      if (backgroundPlaying) {
+        backgroundAudio.pause();
+        backgroundPlaying = false;
+      }
+      
+      // Play wish audio
+      wishAudio.volume = 0.35;
+      wishAudio.play()
+        .then(() => {
+          wishPlaying = true;
+          console.log('Birthday wish started');
+          // Update UI
+          playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+          vinylRecord.classList.add('playing');
         progressInterval = setInterval(() => {
-          progress.style.width = ((audio.currentTime / audio.duration) * 100) + '%';
+          progress.style.width = ((wishAudio.currentTime / wishAudio.duration) * 100) + '%';
         }, 500);
-      }).catch(() => {});
+        })
+        .catch(e => {
+          console.error('Wish audio error:', e);
+        });
     } else {
-      audio.pause();
-      isPlaying = false;
-      vinyl.classList.remove('playing');
-      icon.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+      // Pause wish audio
+      wishAudio.pause();
+      wishPlaying = false;
+      console.log('Birthday wish paused');
       clearInterval(progressInterval);
+      
+      // Restart background music if it was paused
+      if (!backgroundPlaying) {
+        backgroundAudio.play()
+          .then(() => {
+            backgroundPlaying = true;
+            console.log('Background music restarted');
+          })
+          .catch(e => {
+            console.error('Background audio restart error:', e);
+          });
+      }
+      
+      // Update UI
+      playIcon.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+      vinylRecord.classList.remove('playing');
     }
   }
+
+  // Handle wish end event
+  wishAudio.addEventListener('ended', function() {
+    if (!wishPlaying) return;
+    
+    // Restart background music when wish ends
+    if (!backgroundPlaying) {
+      backgroundAudio.play()
+        .then(() => {
+          backgroundPlaying = true;
+          console.log('Background music restarted after wish ended');
+        })
+        .catch(e => {
+          console.error('Background audio restart error:', e);
+        });
+    }
+    
+    // Update UI
+    document.getElementById('playBtn').innerHTML = 
+      '<polygon points="5,3 19,12 5,21"/>';
+    document.getElementById('vinylRecord').classList.remove('playing');
+    wishPlaying = false;
+  });
+
+  // Initial setup for cake page music player
+  document.addEventListener('DOMContentLoaded', function() {
+    // Set up play button for cake page
+    const playBtn = document.getElementById('playBtn');
+    if (playBtn) {
+      playBtn.onclick = toggleWishPlay;
+      
+      // Initialize UI state
+      const playIcon = document.getElementById('playIcon');
+      const vinylRecord = document.getElementById('vinylRecord');
+      
+      // Set initial play icon
+      playIcon.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+      vinylRecord.classList.remove('playing');
+      
+      // Handle audio errors
+      backgroundAudio.onerror = function(e) {
+        console.error('Background audio error:', e);
+      };
+      
+      wishAudio.onerror = function(e) {
+        console.error('Wish audio error:', e);
+      };
+    }
+  });
+
 
   // FLIP CARD
   function flipCard() {
