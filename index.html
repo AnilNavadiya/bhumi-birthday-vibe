@@ -1,2015 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎉 Happy Birthday Bhumiiiii! 🫶🏻🫶</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Quicksand:wght@300;400;600&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  :root {
-    --red: #c0392b;
-    --dark-red: #922b21;
-    --gold: #f1c40f;
-  }
-
-  body {
-    font-family: 'Quicksand', sans-serif;
-    background: #0a0a1a;
-    overflow-x: hidden;
-  }
-
-  .page {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-    z-index: 1;
-    padding: 20px;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .page.active {
-    opacity: 1;
-    pointer-events: all;
-    z-index: 10;
-  }
-
-  .page-content {
-    max-width: 600px;
-    margin: 0 auto;
-    padding-bottom: 40px;
-    position: relative;
-    z-index: 10;
-  }
-
-  /* ============ BLUR + OVERLAY BACKGROUNDS FOR PAGES ============ */
-  .page::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: inherit;
-    filter: blur(1px) brightness(0.8);
-    z-index: -2;
-    transform: scale(1.05);
-  }
-
-  .page::after {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8));
-    z-index: -1;
-  }
-
-  #page-envelope { background: url('assets/bg_envelope.jpg') center/cover no-repeat fixed; }
-  #page-greeting { background: url('assets/bg_greeting.jpg') center/cover no-repeat fixed; }
-  #page-gifts { background: url('assets/bg_gifts.jpg') center/cover no-repeat fixed; }
-  #page-message { background: url('assets/bg_messages.jpg') center/cover no-repeat fixed; }
-  #page-flower { background: url('assets/bg_flower.jpg') center/cover no-repeat fixed; }
-  #page-cake { background: url('assets/bg_cake.jpg') center/cover no-repeat fixed; }
-
-  /* ============ HYBRID ANIMATION SYSTEM ============ */
-  .auto-animate {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-  .auto-animate.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .scroll-animate {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-  .scroll-animate.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .from-left { transform: translateX(-40px) translateY(0); }
-  .from-left.visible { transform: translateX(0); }
-  .from-right { transform: translateX(40px) translateY(0); }
-  .from-right.visible { transform: translateX(0); }
-  .scale-up { transform: scale(0.85) translateY(20px); }
-  .scale-up.visible { transform: scale(1) translateY(0); }
-  .rotate-in { transform: rotate(-6deg) scale(0.85) translateY(20px); }
-  .rotate-in.visible { transform: rotate(0deg) scale(1) translateY(0); }
-
-  .delay-1 { transition-delay: 0.1s; }
-  .delay-2 { transition-delay: 0.2s; }
-  .delay-3 { transition-delay: 0.3s; }
-  .delay-4 { transition-delay: 0.4s; }
-  .delay-5 { transition-delay: 0.5s; }
-  .delay-6 { transition-delay: 0.6s; }
-  .delay-7 { transition-delay: 0.7s; }
-  .delay-8 { transition-delay: 0.8s; }
-
-  /* ============ EMOJI PARTICLE SYSTEM ============ */
-  .emoji-particle {
-    position: fixed;
-    pointer-events: none;
-    z-index: 0;
-    font-size: 22px;
-    opacity: 0;
-    will-change: transform, opacity;
-    animation: emojiFloat linear forwards;
-  }
-
-  @keyframes emojiFloat {
-    0% { opacity: 0; transform: translateY(0) translateX(0) rotate(0deg) scale(0.6); }
-    10% { opacity: 0.75; }
-    90% { opacity: 0.75; }
-    100% { opacity: 0; transform: translateY(var(--end-y)) translateX(var(--drift)) rotate(var(--rot)) scale(1.3); }
-  }
-
-  /* ============ LOADER ============ */
-  #loader {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a1a 100%);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    transition: opacity 0.8s ease;
-  }
-
-  #loader.hidden { opacity: 0; pointer-events: none; }
-
-  .loader-ring {
-    width: 60px; height: 60px;
-    position: relative;
-  }
-
-  .loader-ring .dot {
-    position: absolute;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--gold);
-    animation: loaderOrbit 1.5s ease-in-out infinite;
-  }
-
-  .loader-ring .dot:nth-child(1) { top: 0; left: 50%; animation-delay: 0s; }
-  .loader-ring .dot:nth-child(2) { top: 50%; left: 100%; animation-delay: 0.15s; }
-  .loader-ring .dot:nth-child(3) { top: 100%; left: 50%; animation-delay: 0.3s; }
-  .loader-ring .dot:nth-child(4) { top: 50%; left: 0; animation-delay: 0.45s; }
-
-  @keyframes loaderOrbit {
-    0%, 100% { transform: translate(-50%, -50%); opacity: 1; }
-    50% { transform: translate(-50%, -50%); opacity: 0.5; }
-  }
-
-  .loader-text {
-    color: rgba(255,255,255,0.5);
-    margin-top: 20px;
-    font-size: 12px;
-    letter-spacing: 3px;
-  }
-
-  /* BALLOONS BACKGROUND */
-  .balloons {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  .balloon {
-    position: absolute;
-    bottom: -100px;
-    width: 40px; height: 50px;
-    border-radius: 50%;
-    animation: balloonRise linear infinite;
-    opacity: 0.25;
-  }
-
-  @keyframes balloonRise {
-    to { transform: translateY(-120vh); opacity: 0; }
-  }
-
-  /* ============ PAGE 0: ENVELOPE ============ */
-  #page-envelope {
-    display: grid;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .envelope-wrapper {
-    cursor: pointer;
-    z-index: 10;
-    animation: envelopeFloat 3s ease-in-out infinite;
-  }
-
-  @keyframes envelopeFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-
-  .envelope {
-    width: 300px; height: 200px;
-    position: relative;
-  }
-
-  .envelope-back {
-    position: absolute;
-    width: 100%; height: 100%;
-    background: linear-gradient(145deg, #b8302a, #8a2520);
-    border-radius: 10px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-  }
-
-  .envelope-body {
-    position: absolute;
-    width: 100%; height: 100%;
-    background: linear-gradient(145deg, #e74c3c, #c0392b);
-    border-radius: 10px;
-  }
-
-  .envelope-top-flap {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 55%;
-    background: linear-gradient(145deg, #e85448, #c0392b);
-    clip-path: polygon(0 0, 50% 100%, 100% 0);
-    z-index: 6;
-    transform-origin: top center;
-    transition: transform 1s ease;
-  }
-
-  .envelope.opened .envelope-top-flap { transform: rotateX(180deg); }
-
-  .gold-seal {
-    position: absolute;
-    top: 45%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px; height: 50px;
-    background: radial-gradient(circle at 30% 30%, #f9e547, #d4a017);
-    border-radius: 50%;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    transition: all 0.8s ease;
-    animation: sealPulse 2s ease-in-out infinite;
-  }
-
-  @keyframes sealPulse {
-    0%, 100% { box-shadow: 0 4px 15px rgba(0,0,0,0.3), 0 0 0 rgba(241, 196, 15, 0); }
-    50% { box-shadow: 0 4px 25px rgba(241, 196, 15, 0.6), 0 0 30px rgba(241, 196, 15, 0.3); }
-  }
-
-  .envelope.opened .gold-seal {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0) rotate(360deg);
-  }
-
-  .envelope-letter-peek {
-    position: absolute;
-    top: 10%; left: 15%;
-    width: 70%; height: 50%;
-    background: #f5e6c8;
-    border-radius: 4px;
-    z-index: 1;
-    transition: transform 1s ease 0.2s;
-  }
-
-  .envelope.opened .envelope-letter-peek { transform: translateY(-60px); }
-
-  .envelope-text {
-    text-align: center;
-    z-index: 10;
-  }
-
-  .envelope-text h2 {
-    font-family: 'Great Vibes', cursive;
-    font-size: 32px;
-    color: var(--gold);
-    margin-bottom: 10px;
-  }
-
-  .envelope-text p {
-    font-size: 13px;
-    color: rgba(255,255,255,0.6);
-    letter-spacing: 2px;
-  }
-
-  /* ============ PAGE 1: GREETING ============ */
-  .greeting-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 40px;
-  }
-
-  .greeting-photo-frame {
-    width: 95vw;
-    max-width: 450px;
-    aspect-ratio: 4/3;
-    border-radius: 20px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    margin-bottom: 15px;
-  }
-
-  .greeting-photo-frame img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-  }
-
-  .greeting-photo-frame:hover img { transform: scale(1.03); }
-
-  .greeting-overlay {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-
-  .greeting-date {
-    font-size: 11px;
-    color: rgba(255,255,255,0.7);
-    letter-spacing: 3px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
-
-  .greeting-title {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(36px, 10vw, 52px);
-    color: white;
-    text-align: center;
-    line-height: 1.2;
-    margin-bottom: 10px;
-    margin-left: auto;
-    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
-  }
-
-  .greeting-sub {
-    font-family: 'Dancing Script', cursive;
-    font-size: 18px;
-    color: rgba(255,255,255,0.85);
-    text-align: center;
-  }
-
-  .continue-btn {
-    margin-top: 30px;
-    padding: 15px 45px;
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-family: 'Dancing Script', cursive;
-    font-size: 22px;
-    cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
-  }
-
-  .continue-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
-  .continue-btn:active { transform: scale(0.95); }
-
-  /* ============ PAGE 2: GIFTS ============ */
-  .gifts-container {
-    padding-top: 60px;
-    text-align: center;
-  }
-
-  .gifts-title {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(40px, 12vw, 60px);
-    color: white;
-    margin-bottom: 10px;
-    animation: titleGlow 2s ease-in-out infinite;
-  }
-
-  @keyframes titleGlow {
-    0%, 100% { text-shadow: 0 0 20px rgba(241, 196, 15, 0.3); }
-    50% { text-shadow: 0 0 40px rgba(241, 196, 15, 0.6); }
-  }
-
-  .gifts-subtitle {
-    font-size: 13px;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 2px;
-    margin-bottom: 50px;
-    text-transform: uppercase;
-  }
-
-  .gifts-grid {
-    display: flex;
-    gap: 25px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .gift-item {
-    flex: 1;
-    min-width: 130px;
-    max-width: 160px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-
-  .gift-item:hover { transform: translateY(-15px) scale(1.1); }
-  .gift-item:active { transform: scale(0.95); }
-
-  .gift-card {
-    width: 130px; height: 130px;
-    margin: 0 auto 15px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 60px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.2);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .gift-card::before {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .gift-item:hover .gift-card::before { opacity: 1; }
-
-  .gift-label {
-    font-family: 'Dancing Script', cursive;
-    font-size: 22px;
-    color: white;
-  }
-
-  /* ============ PAGE 3: MESSAGES ============ */
-  .messages-container {
-    padding-top: 50px;
-  }
-
-  .messages-title {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(32px, 10vw, 48px);
-    color: white;
-    text-align: center;
-    margin-bottom: 5px;
-  }
-
-  .messages-subtitle {
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 3px;
-    text-align: center;
-    margin-bottom: 40px;
-    text-transform: uppercase;
-  }
-
-  .friend-messages {
-    display: flex;
-    flex-direction: column;
-    gap: 35px;
-  }
-
-  .friend-card-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 12px;
-  }
-
-  .friend-avatar-msg {
-    width: 60px; height: 60px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid rgba(255,255,255,0.3);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    flex-shrink: 0;
-  }
-
-  .friend-avatar-msg img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-  }
-
-  .friend-info { flex: 1; }
-
-  .friend-name {
-    font-family: 'Dancing Script', cursive;
-    font-size: 22px;
-    color: white;
-  }
-
-  .friend-label {
-    font-size: 11px;
-    color: rgba(255,255,255,0.5);
-  }
-
-  .friend-number {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Great Vibes', cursive;
-    font-size: 16px;
-    color: var(--gold);
-  }
-
-  .mini-envelope-wrapper { cursor: pointer; }
-
-  .mini-envelope {
-    width: 100%; height: 150px;
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    transition: transform 0.3s ease;
-  }
-
-  .mini-envelope:hover { transform: translateY(-5px); }
-
-  .mini-envelope-body {
-    width: 100%; height: 100%;
-    position: relative;
-  }
-
-  .friend-message-card:nth-child(1) .mini-envelope-body { background: linear-gradient(145deg, #e8d5b7, #d4c4a8); }
-  .friend-message-card:nth-child(2) .mini-envelope-body { background: linear-gradient(145deg, #c5d8d4, #a8c4be); }
-  .friend-message-card:nth-child(3) .mini-envelope-body { background: linear-gradient(145deg, #d4c5d8, #c4a8c8); }
-
-  .mini-envelope-flap {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 50%;
-    clip-path: polygon(0 0, 50% 100%, 100% 0);
-    z-index: 5;
-    transform-origin: top center;
-    transition: transform 0.8s ease;
-  }
-
-  .friend-message-card:nth-child(1) .mini-envelope-flap { background: linear-gradient(180deg, #dcc9a8, #c5b596); }
-  .friend-message-card:nth-child(2) .mini-envelope-flap { background: linear-gradient(180deg, #b5c8c4, #9cb5b0); }
-  .friend-message-card:nth-child(3) .mini-envelope-flap { background: linear-gradient(180deg, #c8b5c8, #b59cb5); }
-
-  .mini-wax-seal {
-    position: absolute;
-    top: 40%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    transition: all 0.7s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    animation: sealGlow 2s ease-in-out infinite;
-  }
-
-  @keyframes sealGlow {
-    0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-    50% { box-shadow: 0 4px 20px rgba(255,255,255,0.4); }
-  }
-
-  .friend-message-card:nth-child(1) .mini-wax-seal { background: radial-gradient(circle at 35% 30%, #e74c3c, #c0392b); }
-  .friend-message-card:nth-child(2) .mini-wax-seal { background: radial-gradient(circle at 35% 30%, #2ecc71, #27ae60); }
-  .friend-message-card:nth-child(3) .mini-wax-seal { background: radial-gradient(circle at 35% 30%, #9b59b6, #8e44ad); }
-
-  .mini-envelope.opened .mini-envelope-flap { transform: rotateX(180deg); }
-  .mini-envelope.opened .mini-wax-seal { opacity: 0; transform: translate(-50%, -50%) scale(0) rotate(360deg); }
-
-  .mini-tap-hint {
-    text-align: center;
-    margin-top: 10px;
-    color: rgba(255,255,255,0.4);
-    font-size: 12px;
-  }
-
-  /* ============ FIXED: BLURRED AVATAR BACKGROUNDS FOR LETTERS ============ */
-  .friend-letter-content {
-    display: none;
-    animation: fadeIn 0.6s ease;
-    position: relative;
-    overflow: hidden;
-    border-radius: 16px;
-    margin: 15px 0;
-  }
-
-  .friend-letter-content.show { display: block; }
-
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-  /* Blurred background photo */
-  .friend-letter-content::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-size: cover;
-    background-position: center;
-    filter: blur(0px) brightness(0.45);
-    transform: scale(1.15);
-    z-index: -1;
-  }
-
-  /* Colored overlay */
-  .friend-letter-content::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: 1;
-    border-radius: 16px;
-  }
-
-  /* SHRUTI'S LETTER */
-  .friend-message-card:nth-child(1) .friend-letter-content::before {
-    background-image: url('assets/shruti.jpg');
-    z-index: -1;
-  }
-  /* .friend-message-card:nth-child(1) .friend-letter-content::after {
-    background: linear-gradient(135deg, rgba(180, 140, 30, 0.4), rgba(120, 90, 20, 0.5));
-  } */
-
-  /* PREETY'S LETTER */
-  .friend-message-card:nth-child(2) .friend-letter-content::before {
-    background-image: url('assets/preety.jpg');
-  }
-  /* .friend-message-card:nth-child(2) .friend-letter-content::after {
-    background: linear-gradient(135deg, rgba(40, 130, 60, 0.4), rgba(30, 90, 45, 0.5));
-  } */
-
-  /* SNEHA'S LETTER */
-  .friend-message-card:nth-child(3) .friend-letter-content::before {
-    background-image: url('assets/sneha.jpg');
-  }
-  /* .friend-message-card:nth-child(3) .friend-letter-content::after {
-    background: linear-gradient(135deg, rgba(110, 40, 150, 0.4), rgba(80, 30, 110, 0.5));
-  } */
-
-  /* Glass-morphism paper */
-  .friend-paper {
-    position: relative;
-    z-index: 1;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    opacity: 0.6;
-  }
-
-  .friend-message-card:nth-child(1) .friend-paper { background: rgba(255, 248, 230, 0.75); }
-  .friend-message-card:nth-child(2) .friend-paper { background: rgba(240, 255, 245, 0.75); }
-  .friend-message-card:nth-child(3) .friend-paper { background: rgba(250, 240, 255, 0.75); }
-
-  .friend-letter-greeting {
-    font-family: 'Great Vibes', cursive;
-    font-size: 26px;
-    margin-bottom: 15px;
-  }
-
-  .friend-message-card:nth-child(1) .friend-letter-greeting { color: #8B6914; }
-  .friend-message-card:nth-child(2) .friend-letter-greeting { color: #2e7d32; }
-  .friend-message-card:nth-child(3) .friend-letter-greeting { color: #7b1fa2; }
-
-  .friend-letter-text {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 14px;
-    line-height: 1.9;
-  }
-
-  .friend-letter-text p { margin-bottom: 12px; text-indent: 20px; }
-
-  .friend-message-card:nth-child(1) .friend-letter-text p { color: #5a4515; }
-  .friend-message-card:nth-child(2) .friend-letter-text p { color: #1a4a2a; }
-  .friend-message-card:nth-child(3) .friend-letter-text p { color: #4a2060; }
-
-  .friend-letter-sign { text-align: right; margin-top: 20px; }
-
-  .friend-sign-line {
-    font-family: 'Great Vibes', cursive;
-    font-size: 24px;
-  }
-
-  .friend-message-card:nth-child(1) .friend-sign-line { color: #8B6914; }
-  .friend-message-card:nth-child(2) .friend-sign-line { color: #2e7d32; }
-  .friend-message-card:nth-child(3) .friend-sign-line { color: #7b1fa2; }
-
-  .friend-from-label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 3px;
-    opacity: 0.7;
-  }
-
-  .back-btn {
-    margin-top: 30px;
-    padding: 12px 35px;
-    background: rgba(255,255,255,0.1);
-    color: white;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 50px;
-    font-family: 'Quicksand', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .back-btn:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
-
-  /* ============ PAGE 4: FLOWER ============ */
-  .flower-container {
-    padding-top: 40px;
-    text-align: center;
-  }
-
-  .flower-section { margin-bottom: 35px; }
-
-  .flower-emoji {
-    font-size: 100px;
-    display: block;
-    animation: flowerSway 3s ease-in-out infinite;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
-  }
-
-  @keyframes flowerSway {
-    0%, 100% { transform: rotate(-5deg) scale(1); }
-    50% { transform: rotate(5deg) scale(1.05); }
-  }
-
-  .flower-label {
-    font-family: 'Great Vibes', cursive;
-    font-size: 36px;
-    color: white;
-    margin-top: 10px;
-  }
-
-  .flower-subtitle {
-    font-family: 'Dancing Script', cursive;
-    font-size: 16px;
-    color: rgba(255,255,255,0.6);
-  }
-
-  .compliments {
-    display: grid;
-    gap: 12px;
-    margin-bottom: 35px;
-  }
-
-  .compliment-bubble {
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    padding: 15px 20px;
-    color: white;
-    font-size: 13px;
-    line-height: 1.7;
-    text-align: left;
-    border-left: 3px solid var(--gold);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .compliment-bubble:nth-child(even) {
-    text-align: right;
-    border-left: none;
-    border-right: 3px solid var(--gold);
-  }
-
-  .compliment-bubble .highlight {
-    color: var(--gold);
-    font-weight: 600;
-  }
-
-  .memories-section { margin-bottom: 30px; }
-
-  .memories-title {
-    font-family: 'Great Vibes', cursive;
-    font-size: 32px;
-    color: white;
-    text-align: center;
-    margin-bottom: 25px;
-  }
-
-  .memory-carousel {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 15px;
-    background: rgba(0,0,0,0.15);
-    margin-bottom: 20px;
-  }
-
-  .memory-track {
-    display: flex;
-    transition: transform 0.6s ease;
-  }
-
-  .memory-slide {
-    min-width: 100%;
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .memory-photo-frame {
-    width: 100%;
-    max-width: 320px;
-    aspect-ratio: 4/3;
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.3);
-    transition: transform 0.3s ease;
-  }
-
-  .memory-photo-frame:hover { transform: scale(1.05); }
-
-  .memory-photo-frame img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-  }
-
-  .memory-tape {
-    position: absolute;
-    top: -10px; left: 50%;
-    transform: translateX(-50%) rotate(-2deg);
-    width: 70px; height: 20px;
-    background: rgba(255, 220, 180, 0.7);
-    z-index: 5;
-    border-radius: 3px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  }
-
-  .memory-date {
-    font-family: 'Dancing Script', cursive;
-    font-size: 16px;
-    color: rgba(255,255,255,0.8);
-    margin-top: 15px;
-  }
-
-  .memory-caption {
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
-    margin-top: 8px;
-    text-align: center;
-    font-style: italic;
-  }
-
-  .carousel-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-  }
-
-  .carousel-btn {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-  }
-
-  .carousel-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.1); }
-
-  .carousel-dots { display: flex; gap: 8px; }
-
-  .carousel-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .carousel-dot.active {
-    background: var(--gold);
-    width: 25px;
-    border-radius: 4px;
-  }
-
-  .memory-strip {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    margin-top: 25px;
-    flex-wrap: wrap;
-  }
-
-  .mini-polaroid {
-    background: white;
-    padding: 8px 8px 28px 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    transform: rotate(var(--rot, 0deg));
-    transition: all 0.4s ease;
-    cursor: pointer;
-  }
-
-  .mini-polaroid:nth-child(1) { --rot: -6deg; }
-  .mini-polaroid:nth-child(2) { --rot: 4deg; }
-  .mini-polaroid:nth-child(3) { --rot: -3deg; }
-  .mini-polaroid:nth-child(4) { --rot: 5deg; }
-
-  .mini-polaroid:hover {
-    transform: rotate(0deg) scale(1.2) !important;
-    z-index: 10;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-  }
-
-  .mini-polaroid img {
-    width: 75px; height: 75px;
-    object-fit: cover;
-    display: block;
-  }
-
-  /* ============ PAGE 5: CAKE ============ */
-  .cake-container {
-    padding-top: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .cake-emoji {
-    font-size: 60px;
-    margin-bottom: 20px;
-    animation: cakeBounce 2s ease-in-out infinite;
-  }
-
-  @keyframes cakeBounce {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-15px) scale(1.05); }
-  }
-
-  .cake-collage {
-    position: relative;
-    width: 100%;
-    height: 360px;
-    margin-bottom: 25px;
-    background: rgba(0,0,0,0.1);
-    border-radius: 15px;
-    overflow: hidden;
-  }
-
-  .collage-photo {
-    position: absolute;
-    background: white;
-    padding: 10px 10px 32px 10px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    cursor: pointer;
-    transition: all 0.4s ease;
-  }
-
-  .collage-photo:nth-child(1) { width: 140px; height: 140px; top: 25px; left: 25px; transform: rotate(-8deg); z-index: 3; }
-  .collage-photo:nth-child(2) { width: 130px; height: 130px; top: 20px; right: 30px; transform: rotate(6deg); z-index: 2; }
-  .collage-photo:nth-child(3) { width: 150px; height: 150px; bottom: 35px; left: 35px; transform: rotate(-4deg); z-index: 2; }
-  .collage-photo:nth-child(4) { width: 125px; height: 125px; bottom: 30px; right: 25px; transform: rotate(7deg); z-index: 3; }
-
-  .collage-photo:hover {
-    z-index: 10 !important;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-    transform: scale(1.15) rotate(0deg) !important;
-  }
-
-  .collage-photo img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-    border-radius: 4px;
-  }
-
-  .collage-tape {
-    position: absolute;
-    top: -10px; left: 50%;
-    transform: translateX(-50%) rotate(var(--tape-rot, 0deg));
-    width: 50px; height: 16px;
-    background: rgba(255, 200, 180, 0.6);
-    z-index: 5;
-    border-radius: 2px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-
-  .flip-card-container {
-    perspective: 1000px;
-    margin: 20px 0;
-  }
-
-  .flip-card {
-    width: 260px; height: 170px;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.7s ease;
-    cursor: pointer;
-  }
-
-  .flip-card.flipped { transform: rotateY(180deg); }
-
-  .flip-card-front, .flip-card-back {
-    position: absolute;
-    width: 100%; height: 100%;
-    backface-visibility: hidden;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-
-  .flip-card-front {
-    background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-    border: 2px solid rgba(255,255,255,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    color: white;
-  }
-
-  .flip-card-front .card-icon {
-    font-size: 45px;
-    margin-bottom: 10px;
-    animation: heartBeat 1.5s ease-in-out infinite;
-  }
-
-  @keyframes heartBeat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-  }
-
-  .flip-card-front .card-text {
-    font-family: 'Dancing Script', cursive;
-    font-size: 20px;
-  }
-
-  .flip-card-back {
-    transform: rotateY(180deg);
-    background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
-    border: 2px solid rgba(255,255,255,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-
-  .flip-card-back .back-text {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 14px;
-    color: white;
-    text-align: center;
-    line-height: 1.8;
-  }
-
-  .cake-title {
-    font-family: 'Great Vibes', cursive;
-    font-size: 38px;
-    color: white;
-    text-align: center;
-    margin-bottom: 8px;
-  }
-
-  .song-text {
-    font-family: 'Dancing Script', cursive;
-    font-size: 19px;
-    color: rgba(255,255,255,0.6);
-    margin: 15px 0;
-    text-align: center;
-  }
-
-  .music-player {
-    background: rgba(0,0,0,0.3);
-    border-radius: 18px;
-    padding: 18px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-top: 20px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1);
-    width: 100%;
-    max-width: 380px;
-  }
-
-  .vinyl-record {
-    width: 65px; height: 65px;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg, #1a1a1a, #2a2a2a, #1a1a1a, #2a2a2a);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-    animation: vinylSpin 3s linear infinite paused;
-  }
-
-  .vinyl-record.playing { animation-play-state: running; }
-
-  .vinyl-record::after {
-    content: '';
-    width: 18px; height: 18px;
-    background: radial-gradient(circle at 35% 35%, var(--red), #6b1a1a);
-    border-radius: 50%;
-  }
-
-  @keyframes vinylSpin { to { transform: rotate(360deg); } }
-
-  .song-info { flex: 1; min-width: 0; }
-
-  .song-title {
-    font-size: 15px;
-    color: white;
-    font-weight: 600;
-    margin-bottom: 3px;
-  }
-
-  .song-artist {
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 8px;
-  }
-
-  .song-bar {
-    width: 100%; height: 4px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .song-progress {
-    width: 0%; height: 100%;
-    background: linear-gradient(90deg, var(--gold), #f39c12);
-    border-radius: 2px;
-    transition: width 0.3s linear;
-  }
-
-  .play-btn {
-    width: 45px; height: 45px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold), #d4a017);
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    flex-shrink: 0;
-    box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
-    transition: all 0.3s ease;
-  }
-
-  .play-btn:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(241, 196, 15, 0.5); }
-  .play-btn:active { transform: scale(0.95); }
-  .play-btn svg { width: 16px; height: 16px; fill: #333; }
-
-  /* ============ RESPONSIVE - MOBILE OPTIMIZED ============ */
-  @media (max-width: 480px) {
-    .page { padding: 15px; }
-    
-    .envelope { width: 280px; height: 187px; }
-    .gold-seal { width: 45px; height: 45px; font-size: 18px; }
-    
-    .greeting-photo-frame {
-      width: 95vw;
-      max-width: 100%;
-      aspect-ratio: 4/3;
-    }
-    
-    .gift-card { width: 120px; height: 120px; font-size: 55px; }
-    
-    .mini-envelope { height: 140px; }
-    .friend-avatar-msg { width: 55px; height: 55px; }
-    
-    .friend-paper { padding: 22px 18px; }
-    
-    .flower-emoji { font-size: 90px; }
-    
-    .memory-photo-frame {
-      max-width: 100%;
-      aspect-ratio: 4/3;
-    }
-    
-    .mini-polaroid img {
-      width: 70px; height: 70px;
-    }
-    
-    .cake-collage { height: 340px; }
-    .collage-photo:nth-child(1) { width: 125px; height: 125px; top: 20px; left: 20px; }
-    .collage-photo:nth-child(2) { width: 115px; height: 115px; top: 15px; right: 25px; }
-    .collage-photo:nth-child(3) { width: 135px; height: 135px; bottom: 30px; left: 30px; }
-    .collage-photo:nth-child(4) { width: 110px; height: 110px; bottom: 25px; right: 20px; }
-    
-    .flip-card { width: 240px; height: 160px; }
-    
-    .music-player { padding: 15px; }
-    .vinyl-record { width: 60px; height: 60px; }
-    
-    /* Disable blur on mobile for performance */
-    .page::before {
-      filter: none;
-      transform: none;
-    }
-    
-    .friend-letter-content::before {
-      filter: none;
-      transform: none;
-    }
-    
-    .friend-paper {
-      background: rgba(255, 255, 255, 0.95) !important;
-      backdrop-filter: none;
-    }
-  }
-
-  @media (max-width: 360px) {
-    .gift-item { min-width: 120px; max-width: 140px; }
-    .gift-card { width: 110px; height: 110px; font-size: 50px; }
-    
-    .cake-collage { height: 300px; }
-    .collage-photo:nth-child(1) { width: 110px; height: 110px; }
-    .collage-photo:nth-child(2) { width: 100px; height: 100px; }
-    .collage-photo:nth-child(3) { width: 120px; height: 120px; }
-    .collage-photo:nth-child(4) { width: 95px; height: 95px; }
-    
-    .mini-polaroid img {
-      width: 65px; height: 65px;
-    }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎉 Happy Birthday Bhumiiiii! 🫶🏻🫶</title>
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="loader-ring">
-    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-ring">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="loader-text">Preparing your surprise...</div>
   </div>
-  <div class="loader-text">Preparing your surprise...</div>
-</div>
 
-<!-- BALLOONS -->
-<div class="balloons" id="balloons"></div>
+  <!-- BALLOONS -->
+  <div class="balloons" id="balloons"></div>
 
-<!-- PAGE 0: ENVELOPE -->
-<div class="page active" id="page-envelope">
-  <div class="envelope-wrapper" onclick="openEnvelope()">
-    <div class="envelope" id="envelope">
-      <div class="envelope-letter-peek"></div>
-      <div class="envelope-back"></div>
-      <div class="envelope-body"></div>
-      <div class="envelope-top-flap"></div>
-      <div class="gold-seal">✦</div>
+  <!-- PAGE 0: ENVELOPE -->
+  <div class="page active" id="page-envelope">
+    <div class="envelope-wrapper" onclick="openEnvelope()">
+      <div class="envelope" id="envelope">
+        <div class="envelope-letter-peek"></div>
+        <div class="envelope-back"></div>
+        <div class="envelope-body"></div>
+        <div class="envelope-top-flap"></div>
+        <div class="gold-seal">✦</div>
+      </div>
+    </div>
+    <div class="envelope-text">
+      <h2>You have a special message</h2>
+      <p>tap to open</p> 
     </div>
   </div>
-  <div class="envelope-text">
-    <h2>You have a special message</h2>
-    <p>tap to open</p> 
-  </div>
-</div>
 
-<!-- PAGE 1: GREETING -->
-<div class="page" id="page-greeting">
-  <div class="page-content">
-    <div class="greeting-container">
-      <div class="greeting-photo-frame auto-animate scale-up">
-        <img src="assets/front_cover.jpg" alt="Bhumiiiii">
-        <div class="greeting-overlay">
-          <!-- <div class="greeting-date auto-animate delay-2"><strong><span id="time"></span></strong></div> -->
-          <h1 class="greeting-title auto-animate delay-3">Happy Birthday Bhumiiiii! 🎉</h1>
-          <p class="greeting-sub auto-animate delay-4">We hope this little gift will make you happy</p>
+  <!-- PAGE 1: GREETING -->
+  <div class="page" id="page-greeting">
+    <div class="page-content">
+      <div class="greeting-container">
+        <div class="greeting-photo-frame auto-animate scale-up">
+          <img src="assets/front_cover.jpg" alt="Bhumiiiii">
+          <div class="greeting-overlay">
+            <h1 class="greeting-title auto-animate delay-3">Happy Birthday Bhumiiiii! 🎉</h1>
+            <p class="greeting-sub auto-animate delay-4">We hope this little gift will make you happy</p>
+          </div>
         </div>
-      </div>
-      <button class="continue-btn auto-animate delay-5" onclick="goToPage('page-gifts')">Open Your Gifts 🎁</button>
-    </div>
-  </div>
-</div>
-
-<!-- PAGE 2: GIFTS -->
-<div class="page" id="page-gifts">
-  <div class="page-content">
-    <div class="gifts-container">
-      <div class="gifts-title auto-animate">These are for you</div>
-      <div class="gifts-subtitle auto-animate delay-1">Choose a gift to unwrap</div>
-      <div class="gifts-grid">
-        <div class="gift-item auto-animate scale-up delay-2" onclick="goToPage('page-message')">
-          <div class="gift-card">💌</div>
-          <div class="gift-label">Message</div>
-        </div>
-        <div class="gift-item auto-animate scale-up delay-3" onclick="goToPage('page-flower')">
-          <div class="gift-card">💐</div>
-          <div class="gift-label">Flower</div>
-        </div>
-        <div class="gift-item auto-animate scale-up delay-4" onclick="goToPage('page-cake')">
-          <div class="gift-card">🧁</div>
-          <div class="gift-label">Cake</div>
-        </div>
-      </div>
-      
-      <div style="height: 50px;"></div>
-      <div class="scroll-animate from-right" style="background: rgba(255,255,255,0.08); border-radius: 15px; padding: 20px; margin-top: 30px; backdrop-filter: blur(10px);">
-        <h3 style="color: white; font-family: 'Dancing Script', cursive; font-size: 24px; margin-bottom: 10px;">💡 Pro Tip</h3>
-        <p style="color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.6;">Each gift holds something special. Take your time to explore them all!</p>
+        <button class="continue-btn auto-animate delay-5" onclick="goToPage('page-gifts')">Open Your Gifts 🎁</button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- PAGE 3: MESSAGES -->
-<div class="page" id="page-message">
-  <div class="page-content">
-    <div class="messages-container">
-      <div class="messages-title auto-animate">Letters From Your Friends</div>
-      <div class="messages-subtitle auto-animate delay-1">Three hearts, three letters</div>
-
-      <div class="friend-messages">
-        <!-- Shruti -->
-        <div class="friend-message-card auto-animate from-left" id="friend1">
-          <div class="friend-card-header">
-            <div class="friend-avatar-msg"><img src="assets/shruti.jpg" alt="Shruti"></div>
-            <div class="friend-info">
-              <div class="friend-name">Shruu</div>
-              <div class="friend-label">Constant</div>
-            </div>
+  <!-- PAGE 2: GIFTS -->
+  <div class="page" id="page-gifts">
+    <div class="page-content">
+      <div class="gifts-container">
+        <div class="gifts-title auto-animate">These are for you</div>
+        <div class="gifts-subtitle auto-animate delay-1">Choose a gift to unwrap</div>
+        <div class="gifts-grid">
+          <div class="gift-item auto-animate scale-up delay-2" onclick="goToPage('page-message')">
+            <div class="gift-card">💌</div>
+            <div class="gift-label">Message</div>
           </div>
-          <div id="friend1-envelope">
-            <div class="mini-envelope-wrapper" onclick="openFriendLetter(1)">
-              <div class="mini-envelope" id="miniEnv1">
-                <div class="mini-envelope-flap"></div>
-                <div class="mini-envelope-body"></div>
-                <div class="mini-wax-seal">♥</div>
-              </div>
-            </div>
+          <div class="gift-item auto-animate scale-up delay-3" onclick="goToPage('page-flower')">
+            <div class="gift-card">💐</div>
+            <div class="gift-label">Flower</div>
           </div>
-          <div class="friend-letter-content" id="friend1-letter">
-            <div class="friend-paper">
-              <div class="friend-letter-greeting">Bhumiiiii 🥹🫶,</div>
-              <div class="friend-letter-text">
-                <p>Happiesttt birthday to my forever person, my comfort human, my go-to for literally everything, my unpaid therapist, my fav dancer and my bestest friend everrrr. 💌✨</p>
-                <p>You're genuinely that one person I can never do without. No matter what happens, you've always been there — understanding me without even explaining, listening to all my random rants, supporting me in every phase of my life, and loving me exactly the way I am. 🤍</p>
-                <p>We literally have that "couple level understanding" without even trying 😭 Actually we are a "Couple", one text and we know what's wrong, one call and my mood instantly uplifts. No fake things, no grudges, no pretending — just the purest friendship everrr.</p>
-                <p>From late night meets, brownie cravings, random "oye niche aa/ free hai?", "Dessert khana hai" plans, bitching sessions 😭, and endless talks — every memory with you feels like home. And honestly? No one can ever replace you. You're my safe place, my peace, my person forever. ♾️</p>
-                <p>"Some people make life better just by existing." And that person for me is YOU. 🫶</p>
-                <p>Please stay exactly the way you are, just overthink a little less okay?🥹 I love you sooo muchhhh and I'm always gonna be right here beside youuu.</p>
-                <p>Happy Birthday to my irreplaceable gem, MY MOST FAVOURITE DANCER👑💃🏻 We have come a long way and will continue till the end. </p>
-              </div>
-              <div class="friend-letter-sign">
-                <span class="friend-from-label">With Huge hugs,</span>
-                <span class="friend-sign-line">Love youu</span>
-              </div>
-            </div>
+          <div class="gift-item auto-animate scale-up delay-4" onclick="goToPage('page-cake')">
+            <div class="gift-card">🧁</div>
+            <div class="gift-label">Cake</div>
           </div>
         </div>
+        
+        <div style="height: 50px;"></div>
+        <div class="scroll-animate from-right" style="background: rgba(255,255,255,0.08); border-radius: 15px; padding: 20px; margin-top: 30px;">
+          <h3 style="color: white; font-family: 'Dancing Script', cursive; font-size: 24px; margin-bottom: 10px;">💡 Pro Tip</h3>
+          <p style="color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.6;">Each gift holds something special. Take your time to explore them all!</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <!-- Preety -->
-        <div class="friend-message-card auto-animate from-right" id="friend2">
-          <div class="friend-card-header">
-            <div class="friend-avatar-msg"><img src="assets/preety.jpg" alt="Preety"></div>
-            <div class="friend-info">
-              <div class="friend-name">Pree</div>
-              <div class="friend-label">My Safe Place</div>
+  <!-- PAGE 3: MESSAGES -->
+  <div class="page" id="page-message">
+    <div class="page-content">
+      <div class="messages-container">
+        <div class="messages-title auto-animate">Letters From Your Friends</div>
+        <div class="messages-subtitle auto-animate delay-1">Three hearts, three letters</div>
+
+        <div class="friend-messages">
+          <!-- Shruti -->
+          <div class="friend-message-card auto-animate from-left" id="friend1">
+            <div class="friend-card-header">
+              <div class="friend-avatar-msg"><img src="assets/shruti.jpg" alt="Shruti"></div>
+              <div class="friend-info">
+                <div class="friend-name">Shruu</div>
+                <div class="friend-label">Constant</div>
+              </div>
             </div>
-          </div>
-          <div id="friend2-envelope">
-            <div class="mini-envelope-wrapper" onclick="openFriendLetter(2)">
-              <div class="mini-envelope" id="miniEnv2">
-                <div class="mini-envelope-flap"></div>
-                <div class="mini-envelope-body"></div>
-                <div class="mini-wax-seal">★</div>
+            <div id="friend1-envelope">
+              <div class="mini-envelope-wrapper" onclick="openFriendLetter(1)">
+                <div class="mini-envelope" id="miniEnv1">
+                  <div class="mini-envelope-flap"></div>
+                  <div class="mini-envelope-body"></div>
+                  <div class="mini-wax-seal">♥</div>
+                </div>
+              </div>
+            </div>
+            <div class="friend-letter-content" id="friend1-letter">
+              <div class="friend-paper">
+                <div class="friend-letter-greeting">Bhumiiiii 🥹🫶,</div>
+                <div class="friend-letter-text">
+                  <p>Happiesttt birthday to my forever person, my comfort human, my go-to for literally everything, my unpaid therapist, my fav dancer and my bestest friend everrrr. 💌✨</p>
+                  <p>You're genuinely that one person I can never do without. No matter what happens, you've always been there — understanding me without even explaining, listening to all my random rants, supporting me in every phase of my life, and loving me exactly the way I am. 🤍</p>
+                  <p>We literally have that "couple level understanding" without even trying 😭 Actually we are a "Couple", one text and we know what's wrong, one call and my mood instantly uplifts. No fake things, no grudges, no pretending — just the purest friendship everrr.</p>
+                  <p>From late night meets, brownie cravings, random "oye niche aa/ free hai?", "Dessert khana hai" plans, bitching sessions 😭, and endless talks — every memory with you feels like home. And honestly? No one can ever replace you. You're my safe place, my peace, my person forever. ♾️</p>
+                  <p>"Some people make life better just by existing." And that person for me is YOU. 🫶</p>
+                  <p>Please stay exactly the way you are, just overthink a little less okay?🥹 I love you sooo muchhhh and I'm always gonna be right here beside youuu.</p>
+                  <p>Happy Birthday to my irreplaceable gem, MY MOST FAVOURITE DANCER👑💃🏻 We have come a long way and will continue till the end. </p>
+                </div>
+                <div class="friend-letter-sign">
+                  <span class="friend-from-label">With Huge hugs,</span>
+                  <span class="friend-sign-line">Love youu</span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="friend-letter-content" id="friend2-letter">
-            <div class="friend-paper">
-              <div class="friend-letter-greeting">Happiest birthday to my homie, my comfort person, my safe place🧿</div>
-              <div class="friend-letter-text">
-                <p>Starting from 9th standard i.e. 2017 to 2026 it's a decade of friendship,love and all in between♾️
+
+          <!-- Preety -->
+          <div class="friend-message-card auto-animate from-right" id="friend2">
+            <div class="friend-card-header">
+              <div class="friend-avatar-msg"><img src="assets/preety.jpg" alt="Preety"></div>
+              <div class="friend-info">
+                <div class="friend-name">Pree</div>
+                <div class="friend-label">My Safe Place</div>
+              </div>
+            </div>
+            <div id="friend2-envelope">
+              <div class="mini-envelope-wrapper" onclick="openFriendLetter(2)">
+                <div class="mini-envelope" id="miniEnv2">
+                  <div class="mini-envelope-flap"></div>
+                  <div class="mini-envelope-body"></div>
+                  <div class="mini-wax-seal">★</div>
+                </div>
+              </div>
+            </div>
+            <div class="friend-letter-content" id="friend2-letter">
+              <div class="friend-paper">
+                <div class="friend-letter-greeting">Happiest birthday to my homie, my comfort person, my safe place🧿</div>
+                <div class="friend-letter-text">
+                  <p>Starting from 9th standard i.e. 2017 to 2026 it's a decade of friendship,love and all in between♾️
 Kaha 9th standard mai pehli bar mile the or kaha apne aaj agaye
 honestly, jab apne pehli baar mile the na, tab bhi kabhi aisa feel hi nahi hua ki we are meeting for the first time. Ek alag hi comfort tha tere saath from the very beginning, jaise hum pehle se hi ek dusre ko jaante ho.</p>
-                <p>pehle padhai aur school ki baate krte the ki aaegi kya school, kitna hua kya padha or sab or aaj dekh, career, life, shaadi, boyfriends, outfits,breakdowns, overthinking, trips, life adventure(iykyk)— literally har cheez discuss sath ki hai. We really have come a long wayy, and honestly, it couldn't have been better.</p>
-                <p>bhale mai thodi noob hu but thankyou for accepting me the way i am and just making sure ki i am okay and checking out for me everytime.
+                  <p>pehle padhai aur school ki baate krte the ki aaegi kya school, kitna hua kya padha or sab or aaj dekh, career, life, shaadi, boyfriends, outfits,breakdowns, overthinking, trips, life adventure(iykyk)— literally har cheez discuss sath ki hai. We really have come a long wayy, and honestly, it couldn't have been better.</p>
+                  <p>bhale mai thodi noob hu but thankyou for accepting me the way i am and just making sure ki i am okay and checking out for me everytime.
 and bhale kuch bhi hojaye mai hamesha hu tere sath bhale tu 3 baje raat ko call kre mai uthalugi pakka hai ye meraa andd in any phase of life i want you as my best friend, can't do without youu.</p>
-                <p>'jaane kyu dil janta tu hai toh i'll be alright'
+                  <p>'jaane kyu dil janta tu hai toh i'll be alright'
 to my og homie just to let you know there is nobody like you nobody ever will be and i love you with all my heart there is no replacement for bhumi in preety's life ever! </p>
-                <p>loveyou my fav girl💌</p>
-              </div>
-              <div class="friend-letter-sign">
-                <span class="friend-from-label">once again </span>
-                <span class="friend-sign-line">Happy happy birthdayyy babyy <br> Stay happy alwaysss🪬</span>
+                  <p>loveyou my fav girl💌</p>
+                </div>
+                <div class="friend-letter-sign">
+                  <span class="friend-from-label">once again </span>
+                  <span class="friend-sign-line">Happy happy birthdayyy babyy <br> Stay happy alwaysss🪬</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Sneha -->
-        <div class="friend-message-card auto-animate from-left" id="friend3">
-          <div class="friend-card-header">
-            <div class="friend-avatar-msg"><img src="assets/sneha.jpg" alt="Sneha"></div>
-            <div class="friend-info">
-              <div class="friend-name">Sneha</div>
-              <div class="friend-label">Ek jaise Energy</div>
-            </div>
-          </div>
-          <div id="friend3-envelope">
-            <div class="mini-envelope-wrapper" onclick="openFriendLetter(3)">
-              <div class="mini-envelope" id="miniEnv3">
-                <div class="mini-envelope-flap"></div>
-                <div class="mini-envelope-body"></div>
-                <div class="mini-wax-seal">✿</div>
+          <!-- Sneha -->
+          <div class="friend-message-card auto-animate from-left" id="friend3">
+            <div class="friend-card-header">
+              <div class="friend-avatar-msg"><img src="assets/sneha.jpg" alt="Sneha"></div>
+              <div class="friend-info">
+                <div class="friend-name">Sneha</div>
+                <div class="friend-label">Ek jaise Energy</div>
               </div>
             </div>
-          </div>
-          <div class="friend-letter-content" id="friend3-letter">
-            <div class="friend-paper">
-              <div class="friend-letter-greeting">Happy birthday to the most spcl girll bhumiiiiiii 🫶🫶</div>
-              <div class="friend-letter-text">
-                <p>As youu know hamare friendship spcl kyu hai that we dont need daily talks to stayconnected tu jabhi milti hai it feels like home like tuje sab pta haii i dont even need to share.</p>
-                <p>you know every happening and ik no matter what u will always stand beside me and saying "sneha you deserve better " you will be okay" that care, comfort is soo rare its shows how much you care through every breakdown low phase ik tu hamesa hogi for cheering me up and reminding me my worth thats what truee sisterhood is🧿</p>
-                <p>Our bond is genuinly very spcl to me maybe we meet through people butt today i can proudly say that having you in my life is one of my biggest blessing❤️</p>
-                <p>Jab me tujse mili bhi ni thi shru pree always bolte the ki me bhilkul bhumi jesi hu and Now that I know you,
+            <div id="friend3-envelope">
+              <div class="mini-envelope-wrapper" onclick="openFriendLetter(3)">
+                <div class="mini-envelope" id="miniEnv3">
+                  <div class="mini-envelope-flap"></div>
+                  <div class="mini-envelope-body"></div>
+                  <div class="mini-wax-seal">✿</div>
+                </div>
+              </div>
+            </div>
+            <div class="friend-letter-content" id="friend3-letter">
+              <div class="friend-paper">
+                <div class="friend-letter-greeting">Happy birthday to the most spcl girll bhumiiiiiii 🫶🫶</div>
+                <div class="friend-letter-text">
+                  <p>As youu know hamare friendship spcl kyu hai that we dont need daily talks to stayconnected tu jabhi milti hai it feels like home like tuje sab pta haii i dont even need to share.</p>
+                  <p>you know every happening and ik no matter what u will always stand beside me and saying "sneha you deserve better " you will be okay" that care, comfort is soo rare its shows how much you care through every breakdown low phase ik tu hamesa hogi for cheering me up and reminding me my worth thats what truee sisterhood is🧿</p>
+                  <p>Our bond is genuinly very spcl to me maybe we meet through people butt today i can proudly say that having you in my life is one of my biggest blessing❤️</p>
+                  <p>Jab me tujse mili bhi ni thi shru pree always bolte the ki me bhilkul bhumi jesi hu and Now that I know you,
 I truly understand why. </p>
-                <p>Keeping you in my life forever🧿🧿</p>
-              </div>
-              <div class="friend-letter-sign">
-                <span class="friend-sign-line">I love youu soo muchh🫂</span>
+                  <p>Keeping you in my life forever🧿🧿</p>
+                </div>
+                <div class="friend-letter-sign">
+                  <span class="friend-sign-line">I love youu soo muchh🫂</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="scroll-animate delay-2" style="text-align: center; margin-top: 40px; color: rgba(255,255,255,0.5); font-size: 13px;">
-        <p>📜 Each letter was written with love & care</p>
-        <p style="margin-top: 5px;">Tap the envelopes to reveal the hidden messages</p>
-      </div>
+        <div class="scroll-animate delay-2" style="text-align: center; margin-top: 40px; color: rgba(255,255,255,0.5); font-size: 13px;">
+          <p>📜 Each letter was written with love & care</p>
+          <p style="margin-top: 5px;">Tap the envelopes to reveal the hidden messages</p>
+        </div>
 
-      <button class="back-btn scroll-animate delay-3" onclick="goToPage('page-gifts')">← Back to Gifts</button>
+        <button class="back-btn scroll-animate delay-3" onclick="goToPage('page-gifts')">← Back to Gifts</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- PAGE 4: FLOWER -->
-<div class="page" id="page-flower">
-  <div class="page-content">
-    <div class="flower-container">
-      <div class="flower-section">
-        <span class="flower-emoji auto-animate scale-up">🌻</span>
-        <div class="flower-label auto-animate delay-1">Sunflower</div>
-        <div class="flower-subtitle auto-animate delay-2">Your favorite flower</div>
-      </div>
+  <!-- PAGE 4: FLOWER -->
+  <div class="page" id="page-flower">
+    <div class="page-content">
+      <div class="flower-container">
+        <div class="flower-section">
+          <span class="flower-emoji auto-animate scale-up">🌻</span>
+          <div class="flower-label auto-animate delay-1">Sunflower</div>
+          <div class="flower-subtitle auto-animate delay-2">Your favorite flower</div>
+        </div>
 
-      <div class="compliments" id="compliments">
-        <div class="compliment-bubble auto-animate from-left delay-1">🌟 <span class="highlight">Professional overthinker, personal comfort person</span>.</div>
-        <div class="compliment-bubble auto-animate from-right delay-2">💪 <span class="highlight">She’ll roast you first and protect you later</span>.</div>
-        <div class="compliment-bubble auto-animate from-left delay-3">🤗 <span class="highlight">Not everyone gets her, but everyone needs a friend like her</span>.</div>
-        <div class="compliment-bubble auto-animate from-right delay-4">🚀 <span class="highlight">Rude by vibe, caring by soul</span>.</div>
-        <div class="compliment-bubble auto-animate from-left delay-5">✨ <span class="highlight">A dancer with chaotic thoughts and the calmest hugs</span>.</div>
-        <div class="compliment-bubble auto-animate from-right delay-6">🌱 <span class="highlight">She overthinks everything except being there for her people</span>.</div>
-      </div>
+        <div class="compliments" id="compliments">
+          <div class="compliment-bubble auto-animate from-left delay-1">🌟 <span class="highlight">Professional overthinker, personal comfort person</span>.</div>
+          <div class="compliment-bubble auto-animate from-right delay-2">💪 <span class="highlight">She'll roast you first and protect you later</span>.</div>
+          <div class="compliment-bubble auto-animate from-left delay-3">🤗 <span class="highlight">Not everyone gets her, but everyone needs a friend like her</span>.</div>
+          <div class="compliment-bubble auto-animate from-right delay-4">🚀 <span class="highlight">Rude by vibe, caring by soul</span>.</div>
+          <div class="compliment-bubble auto-animate from-left delay-5">✨ <span class="highlight">A dancer with chaotic thoughts and the calmest hugs</span>.</div>
+          <div class="compliment-bubble auto-animate from-right delay-6">🌱 <span class="highlight">She overthinks everything except being there for her people</span>.</div>
+        </div>
 
-      <div class="memories-section scroll-animate">
-        <div class="memories-title">Our Beautiful Memories</div>
-        <div class="memory-carousel">
-          <div class="memory-track" id="memoryTrack">
-            <div class="memory-slide">
-              <div class="memory-photo-frame">
-                <div class="memory-tape"></div>
-                <img src="assets/group_01.jpg" alt="Memory 1">
+        <div class="memories-section scroll-animate">
+          <div class="memories-title">Our Beautiful Memories</div>
+          <div class="memory-carousel">
+            <div class="memory-track" id="memoryTrack">
+              <div class="memory-slide">
+                <div class="memory-photo-frame">
+                  <div class="memory-tape"></div>
+                  <img src="assets/group_01.jpg" alt="Memory 1">
+                </div>
+                <div class="memory-caption">"That time we couldn't stop laughing"</div>
               </div>
-              <!-- <div class="memory-date">Summer 2024</div> -->
-              <div class="memory-caption">"That time we couldn't stop laughing"</div>
-            </div>
-            <div class="memory-slide">
-              <div class="memory-photo-frame">
-                <div class="memory-tape"></div>
-                <img src="assets/group_05.jpg" alt="Memory 2">
+              <div class="memory-slide">
+                <div class="memory-photo-frame">
+                  <div class="memory-tape"></div>
+                  <img src="assets/group_05.jpg" alt="Memory 2">
+                </div>
+                <div class="memory-caption">"Good times, crazy moments, and the best of friends."</div>
               </div>
-              <div class="memory-date"></div>
-              <div class="memory-caption">"Good times, crazy moments, and the best of friends."</div>
-            </div>
-            <div class="memory-slide">
-              <div class="memory-photo-frame">
-                <div class="memory-tape"></div>
-                <img src="assets/group_06.jpg" alt="Memory 3">
+              <div class="memory-slide">
+                <div class="memory-photo-frame">
+                  <div class="memory-tape"></div>
+                  <img src="assets/group_06.jpg" alt="Memory 3">
+                </div>
+                <div class="memory-caption">"Friendship is the real treasure"</div>
               </div>
-              <div class="memory-date"></div>
-              <div class="memory-caption">"Friendship is the real treasure"</div>
-            </div>
-            <div class="memory-slide">
-              <div class="memory-photo-frame">
-                <div class="memory-tape"></div>
-                <img src="assets/group_07.jpg" alt="Memory 4">
+              <div class="memory-slide">
+                <div class="memory-photo-frame">
+                  <div class="memory-tape"></div>
+                  <img src="assets/group_07.jpg" alt="Memory 4">
+                </div>
+                <div class="memory-caption">"Through every season"</div>
               </div>
-              <div class="memory-date"></div>
-              <div class="memory-caption">"Through every season"</div>
             </div>
           </div>
+          <div class="carousel-controls">
+            <button class="carousel-btn" onclick="moveCarousel(-1)">‹</button>
+            <div class="carousel-dots" id="carouselDots"></div>
+            <button class="carousel-btn" onclick="moveCarousel(1)">›</button>
+          </div>
+          <div class="memory-strip">
+            <div class="mini-polaroid scroll-animate rotate-in delay-1"><img src="assets/group_02.jpg" alt="1"></div>
+            <div class="mini-polaroid scroll-animate rotate-in delay-2"><img src="assets/group_08.jpg" alt="2"></div>
+            <div class="mini-polaroid scroll-animate rotate-in delay-3"><img src="assets/group_11.jpg" alt="3"></div>
+            <div class="mini-polaroid scroll-animate rotate-in delay-4"><img src="assets/group_09.jpg" alt="4"></div>
+          </div>
         </div>
-        <div class="carousel-controls">
-          <button class="carousel-btn" onclick="moveCarousel(-1)">‹</button>
-          <div class="carousel-dots" id="carouselDots"></div>
-          <button class="carousel-btn" onclick="moveCarousel(1)">›</button>
-        </div>
-        <div class="memory-strip">
-          <div class="mini-polaroid scroll-animate rotate-in delay-1"><img src="assets/group_02.jpg" alt="1"></div>
-          <div class="mini-polaroid scroll-animate rotate-in delay-2"><img src="assets/group_08.jpg" alt="2"></div>
-          <div class="mini-polaroid scroll-animate rotate-in delay-3"><img src="assets/group_11.jpg" alt="3"></div>
-          <div class="mini-polaroid scroll-animate rotate-in delay-4"><img src="assets/group_09.jpg" alt="4"></div>
-        </div>
-      </div>
 
-      <button class="back-btn scroll-animate" onclick="goToPage('page-gifts')">← Back to Gifts</button>
+        <button class="back-btn scroll-animate" onclick="goToPage('page-gifts')">← Back to Gifts</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- PAGE 5: CAKE -->
-<div class="page" id="page-cake">
-  <div class="page-content">
-    <div class="cake-container">
-      <div class="cake-emoji auto-animate scale-up">🎂</div>
-      
-      <div class="cake-collage auto-animate scale-up delay-1">
-        <div class="collage-photo">
-          <div class="collage-tape" style="--tape-rot:-3deg;"></div>
-          <img src="assets/group_03.jpg" alt="1">
-        </div>
-        <div class="collage-photo">
-          <div class="collage-tape" style="--tape-rot:2deg;"></div>
-          <img src="assets/group_04.jpg" alt="2">
-        </div>
-        <div class="collage-photo">
-          <div class="collage-tape" style="--tape-rot:-1deg;"></div>
-          <img src="assets/group_10.jpg" alt="3">
-        </div>
-        <div class="collage-photo">
-          <div class="collage-tape" style="--tape-rot:4deg;"></div>
-          <img src="assets/group_12.jpg" alt="4">
-        </div>
-      </div>
-
-      <div class="flip-card-container auto-animate rotate-in delay-2">
-        <div class="flip-card" id="flipCard" onclick="flipCard()">
-          <div class="flip-card-front">
-            <div class="card-icon">💝</div>
-            <div class="card-text">Tap to reveal</div>
+  <!-- PAGE 5: CAKE -->
+  <div class="page" id="page-cake">
+    <div class="page-content">
+      <div class="cake-container">
+        <div class="cake-emoji auto-animate scale-up">🎂</div>
+        
+        <div class="cake-collage auto-animate scale-up delay-1">
+          <div class="collage-photo">
+            <div class="collage-tape" style="--tape-rot:-3deg;"></div>
+            <img src="assets/group_03.jpg" alt="1">
           </div>
-          <div class="flip-card-back">
-            <div class="back-text">"In a world full of people,<br>you chose to be our favorite.<br>That makes you extraordinary."</div>
+          <div class="collage-photo">
+            <div class="collage-tape" style="--tape-rot:2deg;"></div>
+            <img src="assets/group_04.jpg" alt="2">
+          </div>
+          <div class="collage-photo">
+            <div class="collage-tape" style="--tape-rot:-1deg;"></div>
+            <img src="assets/group_10.jpg" alt="3">
+          </div>
+          <div class="collage-photo">
+            <div class="collage-tape" style="--tape-rot:4deg;"></div>
+            <img src="assets/group_12.jpg" alt="4">
           </div>
         </div>
-      </div>
 
-      <div class="cake-title auto-animate delay-3">Happy Birthday Bhumiiiii!</div>
-      <div class="song-text auto-animate delay-4">"You’re the most beautiful star in the universe! 🌟" </div>
-      
-      <div class="music-player auto-animate from-left delay-5">
-        <div class="vinyl-record" id="vinylRecord"></div>
-        <div class="song-info">
-          <div class="song-title">Birthday Wish</div>
-          <div class="song-artist">Special Message</div>
-          <div class="song-bar"><div class="song-progress" id="songProgress"></div></div>
+        <div class="flip-card-container auto-animate rotate-in delay-2">
+          <div class="flip-card" id="flipCard" onclick="flipCard()">
+            <div class="flip-card-front">
+              <div class="card-icon">💝</div>
+              <div class="card-text">Tap to reveal</div>
+            </div>
+            <div class="flip-card-back">
+              <div class="back-text">"In a world full of people,<br>you chose to be our favorite.<br>That makes you extraordinary."</div>
+            </div>
+          </div>
         </div>
-        <button class="play-btn" id="playBtn" onclick="toggleWishPlay()">
-          <svg viewBox="0 0 24 24" id="playIcon"><polygon points="5,3 19,12 5,21"/></svg>
-        </button>
-      </div>
 
-      <div class="scroll-animate delay-6" style="text-align: center; margin-top: 30px; color: rgba(255,255,255,0.5); font-size: 13px;">
-        <!-- <p>🎵 Turn up the volume for the full experience</p> -->
-      </div>
+        <div class="cake-title auto-animate delay-3">Happy Birthday Bhumiiiii!</div>
+        <div class="song-text auto-animate delay-4">"You're the most beautiful star in the universe! 🌟" </div>
+        
+        <div class="music-player auto-animate from-left delay-5">
+          <div class="vinyl-record" id="vinylRecord"></div>
+          <div class="song-info">
+            <div class="song-title">Birthday Wish</div>
+            <div class="song-artist">Special Message</div>
+            <div class="song-bar"><div class="song-progress" id="songProgress"></div></div>
+          </div>
+          <button class="play-btn" id="playBtn" onclick="toggleWishPlay()">
+            <svg viewBox="0 0 24 24" id="playIcon"><polygon points="5,3 19,12 5,21"/></svg>
+          </button>
+        </div>
 
-      <button class="back-btn scroll-animate delay-7" onclick="goToPage('page-gifts')">← Back to Gifts</button>
+        <button class="back-btn scroll-animate delay-7" onclick="goToPage('page-gifts')">← Back to Gifts</button>
+      </div>
     </div>
   </div>
-</div>
 
-<audio id="birthdaySong" preload="auto" loop>
-  <source src="assets/bg_music.mp3" type="audio/mpeg">
-</audio>
+  <!-- Audio Elements -->
+  <audio id="birthdaySong" preload="auto" loop>
+    <source src="assets/bg_music.mp3" type="audio/mpeg">
+  </audio>
 
-<audio id="birthdayWish" preload="metadata" loop>
-  <source src="assets/birthday_wish.mp3" type="audio/mpeg">
-</audio>
+  <audio id="birthdayWish" preload="metadata" loop>
+    <source src="assets/birthday_wish.mp3" type="audio/mpeg">
+  </audio>
 
-<script>
-  // var today = new Date();
-  // document.getElementById('time').innerHTML = today.toDateString().substring(0, 15);
-
-  // LOADER
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.getElementById('loader').classList.add('hidden');
-      createBalloons();
-    }, 1500);
-  });
-
-  // BALLOONS
-  function createBalloons() {
-    const container = document.getElementById('balloons');
-    const colors = ['#e74c3c', '#f39c12', '#2ecc71', '#3498db', '#9b59b6', '#e91e63'];
-    for (let i = 0; i < 8; i++) {
-      const balloon = document.createElement('div');
-      balloon.className = 'balloon';
-      balloon.style.left = Math.random() * 100 + '%';
-      balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
-      balloon.style.animationDuration = (12 + Math.random() * 15) + 's';
-      balloon.style.animationDelay = Math.random() * 10 + 's';
-      balloon.style.height = (40 + Math.random() * 20) + 'px';
-      container.appendChild(balloon);
-    }
-  }
-
-  // ============ HYBRID ANIMATION ENGINE ============
-  let scrollObserver;
-  let emojiInterval;
-
-  function triggerAutoAnimations(pageId) {
-    const page = document.getElementById(pageId);
-    if (!page) return;
-    
-    const elements = page.querySelectorAll('.auto-animate');
-    elements.forEach((el, index) => {
-      el.classList.remove('visible');
-      let delay = 200 + (index * 180);
-      const delayMatch = el.className.match(/delay-(\d+)/);
-      if (delayMatch) delay += parseInt(delayMatch[1]) * 100;
-      setTimeout(() => el.classList.add('visible'), delay);
-    });
-  }
-
-  function initScrollAnimations() {
-    if (scrollObserver) scrollObserver.disconnect();
-    scrollObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          scrollObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.scroll-animate:not(.visible)').forEach(el => {
-      scrollObserver.observe(el);
-    });
-  }
-
-  // ============ EXTRAORDINARY EMOJI PARTICLE SYSTEM ============
-  function startEmojiSystem(pageId) {
-    clearInterval(emojiInterval);
-    document.querySelectorAll('.emoji-particle').forEach(e => e.remove());
-
-    const emojis = ['🎉', '', '💖', '✨', '🌟', '🎂', '', '🎁', '🥳', '', '🧸', '', '🦋', ''];
-    const page = document.getElementById(pageId);
-
-    emojiInterval = setInterval(() => {
-      if (!page.classList.contains('active')) {
-        clearInterval(emojiInterval);
-        return;
-      }
-      if (document.querySelectorAll('.emoji-particle').length > 20) return;
-
-      const emoji = document.createElement('div');
-      emoji.className = 'emoji-particle';
-      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-
-      const fromTop = Math.random() > 0.5;
-      const startX = Math.random() * window.innerWidth;
-      const drift = (Math.random() - 0.5) * 120;
-      const rot = (Math.random() - 0.5) * 400;
-      const duration = 4 + Math.random() * 5;
-      const fontSize = 16 + Math.random() * 22;
-
-      emoji.style.left = startX + 'px';
-      emoji.style.fontSize = fontSize + 'px';
-      emoji.style.setProperty('--drift', drift + 'px');
-      emoji.style.setProperty('--rot', rot + 'deg');
-      emoji.style.setProperty('--end-y', fromTop ? '110vh' : '-110px');
-      emoji.style.top = fromTop ? '-60px' : '100vh';
-      emoji.style.animationDuration = duration + 's';
-
-      document.body.appendChild(emoji);
-      setTimeout(() => emoji.remove(), duration * 1000);
-    }, 500);
-  }
-
-  // ============ PAGE NAVIGATION ============
-  function goToPage(pageId) {
-    const activePage = document.querySelector('.page.active');
-    if (activePage) activePage.classList.remove('active');
-    
-    setTimeout(() => {
-      const newPage = document.getElementById(pageId);
-      newPage.classList.add('active');
-      newPage.scrollTop = 0;
-      
-      setTimeout(() => {
-        triggerAutoAnimations(pageId);
-        initScrollAnimations();
-        startEmojiSystem(pageId);
-      }, 250);
-      
-      if (pageId === 'page-flower') {
-        setTimeout(() => initCarousel(), 400);
-      }
-    }, 400);
-  }
-
-  // ENVELOPE
-  let envelopeOpened = false;
-  function openEnvelope() {
-    if (envelopeOpened) return;
-    envelopeOpened = true;
-    document.getElementById('envelope').classList.add('opened');
-    setTimeout(() => goToPage('page-greeting'), 1000);
-  }
-
-  // FRIEND LETTERS
-  const lettersOpened = { 1: false, 2: false, 3: false };
-
-  function openFriendLetter(friendNum) {
-    if (lettersOpened[friendNum]) return;
-    lettersOpened[friendNum] = true;
-
-    const miniEnv = document.getElementById('miniEnv' + friendNum);
-    miniEnv.classList.add('opened');
-
-    setTimeout(() => {
-      document.getElementById('friend' + friendNum + '-envelope').style.display = 'none';
-      const letterContent = document.getElementById('friend' + friendNum + '-letter');
-      letterContent.classList.add('show');
-      
-      letterContent.querySelectorAll('p').forEach((p, i) => {
-        p.style.opacity = '0';
-        p.style.transform = 'translateY(15px)';
-        p.style.transition = `all 0.5s ease ${i * 0.2}s`;
-        setTimeout(() => {
-          p.style.opacity = '1';
-          p.style.transform = 'translateY(0)';
-        }, 100);
-      });
-      
-      const sign = letterContent.querySelector('.friend-letter-sign');
-      if (sign) {
-        sign.style.opacity = '0';
-        sign.style.transform = 'translateX(20px)';
-        sign.style.transition = 'all 0.6s ease 0.8s';
-        setTimeout(() => {
-          sign.style.opacity = '1';
-          sign.style.transform = 'translateX(0)';
-        }, 100);
-      }
-    }, 700);
-  }
-
-  // CAROUSEL
-  let currentSlide = 0;
-  const totalSlides = 4;
-
-  function initCarousel() {
-    const dotsContainer = document.getElementById('carouselDots');
-    if (!dotsContainer) return;
-    dotsContainer.innerHTML = '';
-    for (let i = 0; i < totalSlides; i++) {
-      const dot = document.createElement('div');
-      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-      dot.onclick = () => goToSlide(i);
-      dotsContainer.appendChild(dot);
-    }
-  }
-
-  function moveCarousel(dir) {
-    currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
-    updateCarousel();
-  }
-
-  function goToSlide(index) {
-    currentSlide = index;
-    updateCarousel();
-  }
-
-  function updateCarousel() {
-    const track = document.getElementById('memoryTrack');
-    if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
-    document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-      dot.classList.toggle('active', i === currentSlide);
-    });
-  }
-
-  setInterval(() => {
-    if (document.getElementById('page-flower').classList.contains('active')) moveCarousel(1);
-  }, 5000);
-
-  // MUSIC
-  const audio = document.getElementById('birthdaySong');
-  let isPlaying = false;
-  let progressInterval;
-
-  // Audio management variables
-  let backgroundPlaying = false;
-  let wishPlaying = false;
-  let backgroundAudio = document.getElementById('birthdaySong');
-  let wishAudio = document.getElementById('birthdayWish');
-  
-  // Initialize background music on first click
-  document.addEventListener('click', function initMusic() {
-    if (!backgroundPlaying) {
-      backgroundAudio.volume = 0.35;
-      backgroundAudio.play()
-        .then(() => {
-          backgroundPlaying = true;
-          console.log('Background music started');
-        })
-        .catch(e => {
-          console.error('Background audio error:', e);
-        });
-    }
-    document.removeEventListener('click', initMusic);
-  }, { once: true });
-
-  // Toggle wish audio with background music management
-  function toggleWishPlay() {
-    const playBtn = document.getElementById('playBtn');
-    const vinylRecord = document.getElementById('vinylRecord');
-    const playIcon = document.getElementById('playIcon');
-    const progress = document.getElementById('songProgress');
-    
-    if (wishAudio.paused) {
-      // Pause background music if playing
-      if (backgroundPlaying) {
-        backgroundAudio.pause();
-        backgroundPlaying = false;
-      }
-      
-      // Play wish audio
-      wishAudio.volume = 0.35;
-      wishAudio.play()
-        .then(() => {
-          wishPlaying = true;
-          console.log('Birthday wish started');
-          // Update UI
-          playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
-          vinylRecord.classList.add('playing');
-        progressInterval = setInterval(() => {
-          progress.style.width = ((wishAudio.currentTime / wishAudio.duration) * 100) + '%';
-        }, 500);
-        })
-        .catch(e => {
-          console.error('Wish audio error:', e);
-        });
-    } else {
-      // Pause wish audio
-      wishAudio.pause();
-      wishPlaying = false;
-      console.log('Birthday wish paused');
-      clearInterval(progressInterval);
-      
-      // Restart background music if it was paused
-      if (!backgroundPlaying) {
-        backgroundAudio.play()
-          .then(() => {
-            backgroundPlaying = true;
-            console.log('Background music restarted');
-          })
-          .catch(e => {
-            console.error('Background audio restart error:', e);
-          });
-      }
-      
-      // Update UI
-      playIcon.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
-      vinylRecord.classList.remove('playing');
-    }
-  }
-
-  // Handle wish end event
-  wishAudio.addEventListener('ended', function() {
-    if (!wishPlaying) return;
-    
-    // Restart background music when wish ends
-    if (!backgroundPlaying) {
-      backgroundAudio.play()
-        .then(() => {
-          backgroundPlaying = true;
-          console.log('Background music restarted after wish ended');
-        })
-        .catch(e => {
-          console.error('Background audio restart error:', e);
-        });
-    }
-    
-    // Update UI
-    document.getElementById('playBtn').innerHTML = 
-      '<polygon points="5,3 19,12 5,21"/>';
-    document.getElementById('vinylRecord').classList.remove('playing');
-    wishPlaying = false;
-  });
-
-  // Initial setup for cake page music player
-  document.addEventListener('DOMContentLoaded', function() {
-    // Set up play button for cake page
-    const playBtn = document.getElementById('playBtn');
-    if (playBtn) {
-      playBtn.onclick = toggleWishPlay;
-      
-      // Initialize UI state
-      const playIcon = document.getElementById('playIcon');
-      const vinylRecord = document.getElementById('vinylRecord');
-      
-      // Set initial play icon
-      playIcon.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
-      vinylRecord.classList.remove('playing');
-      
-      // Handle audio errors
-      backgroundAudio.onerror = function(e) {
-        console.error('Background audio error:', e);
-      };
-      
-      wishAudio.onerror = function(e) {
-        console.error('Wish audio error:', e);
-      };
-    }
-  });
-
-
-  // FLIP CARD
-  function flipCard() {
-    document.getElementById('flipCard').classList.toggle('flipped');
-  }
-
-  // PHOTO CLICK EFFECT
-  document.querySelectorAll('.collage-photo, .mini-polaroid, .memory-photo-frame').forEach(photo => {
-    photo.addEventListener('click', function() {
-      this.style.transform = 'scale(1.15) rotate(0deg)';
-      setTimeout(() => { this.style.transform = ''; }, 400);
-    });
-  });
-
-  // AUTO-START MUSIC ON FIRST INTERACTION
-  function startMusic() {
-    if (!isPlaying) {
-      audio.volume = 0.35;
-      audio.play().catch(e => console.log('Click to enable audio'));
-    }
-  }
-  document.addEventListener('click', function initMusic() {
-    startMusic();
-    document.removeEventListener('click', initMusic);
-  }, { once: true });
-
-  // Start music when envelope opens
-  const originalOpenEnvelope = window.openEnvelope;
-  window.openEnvelope = function() {
-    startMusic();
-    if (originalOpenEnvelope) originalOpenEnvelope();
-  }
-
-  // INITIAL TRIGGERS
-  setTimeout(() => {
-    triggerAutoAnimations('page-greeting');
-    initScrollAnimations();
-  }, 1600);
-</script>
-
+  <!-- External JavaScript -->
+  <script src="script.js"></script>
 </body>
 </html>
